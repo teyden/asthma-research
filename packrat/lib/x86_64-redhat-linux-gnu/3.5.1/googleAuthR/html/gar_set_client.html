@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Setup the clientId, clientSecret and scopes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_set_client {googleAuthR}"><tr><td>gar_set_client {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Setup the clientId, clientSecret and scopes</h2>
+
+<h3>Description</h3>
+
+<p>Help setup the client ID and secret with the OAuth 2.0 clientID.  
+Do not confuse with Service account keys.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_set_client(json = Sys.getenv("GAR_CLIENT_JSON"),
+  web_json = Sys.getenv("GAR_CLIENT_WEB_JSON"), scopes = NULL,
+  activate = c("offline", "web"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>json</code></td>
+<td>
+<p>The file location of an OAuth 2.0 client ID json file</p>
+</td></tr>
+<tr valign="top"><td><code>web_json</code></td>
+<td>
+<p>The file location of client ID json file for web applications</p>
+</td></tr>
+<tr valign="top"><td><code>scopes</code></td>
+<td>
+<p>A character vector of scopes to set</p>
+</td></tr>
+<tr valign="top"><td><code>activate</code></td>
+<td>
+<p>Which credential to activate</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function helps set the <code>options(googleAuthR.client_id)</code>, 
+<code>options(googleAuthR.client_secret)</code> and 
+<code>options(googleAuthR.scopes.selected)</code> for you.
+</p>
+<p>You can also set the web application client IDs that are used in Shiny authentication, 
+that are set via the options <code>options(googleAuthR.webapp.client_id)</code>, 
+<code>options(googleAuthR.webapp.client_secret)</code>
+</p>
+<p>Note that if you authenticate with a cache token with different values it 
+will overwrite them.
+</p>
+<p>For successful authentication, the API scopes can be browsed via the 
+googleAuthR RStudio addin or the Google API documentation.
+</p>
+<p>Do not confuse this JSON file with the service account keys, that are
+used to authenticate a service email.  This JSON only sets up which
+app you are going to authenticate with - use <a href="gar_auth_service.html">gar_auth_service</a> with
+the Service account keys JSON to perform the actual authentication. 
+</p>
+<p>By default the JSON file will be looked for in the location specified by the
+<code>"GAR_CLIENT_JSON"</code> environment argument, or via <code>"GAR_CLIENT_WEB_JSON"</code> for webapps.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <code>project-id</code> the app has been set for
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Idea via @jennybc and @jimhester from <code>gargle and gmailr</code> libraries.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://console.cloud.google.com/apis/credentials">https://console.cloud.google.com/apis/credentials</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+
+gar_set_client("google-client.json", 
+               scopes = "http://www.googleapis.com/auth/webmasters")
+gar_auth_service("google-service-auth.json")
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

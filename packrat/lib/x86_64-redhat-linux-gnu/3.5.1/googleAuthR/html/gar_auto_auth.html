@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Perform auto authentication</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_auto_auth {googleAuthR}"><tr><td>gar_auto_auth {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Perform auto authentication</h2>
+
+<h3>Description</h3>
+
+<p>This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by <a href="gar_attach_auto_auth.html">gar_attach_auto_auth</a>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_auto_auth(required_scopes, no_auto = NULL,
+  environment_var = "GAR_AUTH_FILE", new_user = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>required_scopes</code></td>
+<td>
+<p>Required scopes needed to authenticate - needs to match at least one</p>
+</td></tr>
+<tr valign="top"><td><code>no_auto</code></td>
+<td>
+<p>If TRUE, ignore auto-authentication settings</p>
+</td></tr>
+<tr valign="top"><td><code>environment_var</code></td>
+<td>
+<p>Name of environment var that contains auth file path</p>
+</td></tr>
+<tr valign="top"><td><code>new_user</code></td>
+<td>
+<p>Deprecated, not used
+</p>
+<p>The authentication file can be a <code>.httr-oauth</code> file created via <a href="gar_auth.html">gar_auth</a> 
+or a Google service JSON file downloaded from the Google API credential console, 
+with file extension <code>.json</code>.
+</p>
+<p>You can use this in your code to authenticate from a file location specified in file, 
+but it is mainly intended to be called on package load via <a href="gar_attach_auto_auth.html">gar_attach_auto_auth</a>.
+</p>
+<p><code>environment_var</code> This is the name that will be called via <a href="../../base/html/Sys.getenv.html">Sys.getenv</a> on library load.  The environment variable will contain an absolute file path to the location of an authentication file.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an OAuth token object, specifically a
+<code><a href="../../httr/html/Token-class.html">Token2.0</a></code>, invisibly
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Help files for <a href="../../base/html/ns-hooks.html">.onAttach</a>
+</p>
+<p>Other authentication functions: <code><a href="gar_attach_auto_auth.html">gar_attach_auto_auth</a></code>,
+<code><a href="gar_auth_service.html">gar_auth_service</a></code>, <code><a href="gar_auth.html">gar_auth</a></code>,
+<code><a href="gar_gce_auth.html">gar_gce_auth</a></code>,
+<code><a href="get_google_token.html">get_google_token</a></code>,
+<code><a href="token_exists.html">token_exists</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

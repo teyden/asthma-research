@@ -1,0 +1,125 @@
+---
+title: "Microbiome composition association of all merged metadata"
+output: html_document
+params:
+  outcomes: NULL
+  confounders: NULL
+  covariates: NULL
+  plot_subtitle: ""
+  page_title: ""
+  test: FALSE
+  verbose: FALSE
+  html_filename: ""
+  merged_metadata: NULL
+  timepoint: NULL
+  num_taxa: NULL
+  curr_taxa_id: NULL
+  kernels: NULL
+  kernel_order: NULL
+  missing_feature_scores_filepath: NULL
+  dir_path.assoc_results_for_subset: NULL
+---
+
+Note: this analysis file has been made generic for batch calls. Confounders and covariates are passed down from an r script. 
+It has been optimized by removing the data processing and loading to a separate script, as that process is generic and only needs to be run once. Instead, the RData objects are read in and passed down to the models.
+
+This analysis looks at which variables are associated with microbiome composition.
+
+It would be beneficial to also look at which variables are significant covariates for asthma, when associating with microbiome composition. There is another markdown file that seeks to answer this. 
+
+```{r results='hide', message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(MiRKAT)
+library(dplyr)
+library(tidyverse)
+library(phyloseq)
+library(knitr)
+library(DT)
+```
+
+### Import helper functions and load metadata
+```{r import_utility_scripts}
+source("~/Projects/asthma/asthma-research/code/r/PROJECT_GLOBAL_CONFIGS.R")
+import.project_utils()
+import.abs_filepaths(concat_paths(DIR_PATH.R_CODE.SCRIPTS, "mirkat_utilities.R"))
+```
+
+# Assess association between microbiome composition and asthma disease status
+
+## Testing using multiple kernels, with a single outcome.
+
+By using all the different variables as outcomes, we test the association between that specific variable with microbiome composition (the kernel / similarity matrices representing the microbiome data). The confounders provided will be handled as part of every single model, in a constant manner (will be handle each time). If covariates are provided, they will also be handled like how confounders are handled.
+
+```{r run_mirkat_association_tests}
+# Set up results object
+mi_res <- list()
+mi_res[[timepoint]] <- list()
+
+if (is.null(params$outcomes) || is_empty(params$outcomes)) {
+  stop("Outcomes vector is null or empty. MiRKAT cannot run without outcomes defined.")
+}
+
+# NOTE for refactoring: Should check if outcomes, covariates and confounders exist in merged_metadata for more graceful fails.
+
+outcomes <- params$outcomes
+covariates <- params$covariates
+confounders <- params$confounders
+merged_metadata <- params$merged_metadata
+timepoint <- params$timepoint
+num_taxa <- params$num_taxa
+
+kernels <- params$kernels
+kernel_order <- params$kernel_order
+
+mi_res[[timepoint]] <- subset_and_run_univariate_mirkat(
+  metadata_source = merged_metadata, 
+  outcomes = outcomes,
+  kernels = kernels,
+  output_obj = mi_res[[timepoint]], 
+  covariates = covariates,
+  confounders = confounders,
+  verbose = params$verbose)
+```
+
+
+```{r summarize_results}
+# Summarize the results
+save(mi_res, file = concat_paths(DIR_PATH.TMP_DATA_OUTPUT, "mirkat_rfe_debug.RData"))
+mirkat_results <- mi_res[[timepoint]]
+outcomes <- names(mirkat_results)
+output_table <- data.frame(matrix(nrow=length(outcomes), ncol=length(kernel_order)+1))
+colnames(output_table) <- c(kernel_order, "omnibus_p")
+rownames(output_table) <- outcomes
+
+for (outcome in outcomes) {
+  output_table[outcome, ] <- c(mirkat_results[[outcome]]$indivP, mirkat_results[[outcome]]$omnibus_p)
+}
+
+output_table <- adjust_p_for_kernels(c(kernel_order, "omnibus_p"), output_table)
+
+mir_path <- paste0(dir_path.assoc_results_for_subset, "/", params$html_filename, ".csv")
+write.csv(output_table, mir_path)
+```
+
+```{r}
+# Each run of this file is evaluating the removal of a single OTU. 
+missing_feature_scores_filepath <- params$missing_feature_scores_filepath
+curr_taxa_id <- params$curr_taxa_id
+for (outcome in outcomes) {
+  association_details <- output_table[c(outcome), ]
+  line <- paste(c(curr_taxa_id, outcome, association_details), collapse = ",")
+  write(line, file = missing_feature_scores_filepath, append = TRUE)
+}
+```
+
+## Confounders and covariates handled in models
+```{r}
+DT::datatable(data.frame(confounders = confounders))
+DT::datatable(data.frame(covariates = covariates))
+```
+
+## Microbiome composition association results
+```{r}
+DT::datatable(output_table, options = list(scrollX = TRUE))
+```

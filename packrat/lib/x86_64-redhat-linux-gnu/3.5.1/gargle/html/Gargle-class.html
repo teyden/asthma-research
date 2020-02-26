@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: OAuth2 token objects specific to Google APIs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Gargle-class {gargle}"><tr><td>Gargle-class {gargle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>OAuth2 token objects specific to Google APIs</h2>
+
+<h3>Description</h3>
+
+<p>This is based on the <a href="../../httr/html/Token-class.html">Token2.0</a> class provided in httr.
+These objects should be created through the constructor function
+<code><a href="gargle2.0_token.html">gargle2.0_token()</a></code>. Key differences:
+</p>
+
+<ul>
+<li><p> The key for a cached <code>Token2.0</code> comes from hashing the endpoint, app, and
+scopes. For the <code>Gargle2.0</code> subclass, the identifier or key is expanded to
+include the email address associated with the token. This makes it easier to
+work with Google APIs with multiple identities.
+</p>
+</li>
+<li> <p><code>Gargle2.0</code> tokens are cached, by default, below
+<code>"~/.R/gargle/gargle-oauth"</code>, i.e. at the user level. In contrast, the
+default location for <code>Token2.0</code> is <code>./.httr-oauth</code>, i.e. in current working
+directory. <code>Gargle2.0</code> behaviour makes it easier to reuse tokens across
+projects and makes it less likely that tokens are accidentally synched to a
+remote location like GitHub or DropBox.
+</p>
+</li>
+<li><p> Each <code>Gargle2.0</code> token is cached in its own file. The token cache is a
+directory of such files. In contrast, <code>Token2.0</code> tokens are cached as
+components of a list, which is typically serialized to <code>./.httr-oauth</code>.
+</p>
+</li></ul>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+Gargle2.0
+</pre>
+
+
+<h3>Format</h3>
+
+<p>An R6 class object.</p>
+
+<hr /><div style="text-align: center;">[Package <em>gargle</em> version 0.4.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

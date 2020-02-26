@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get Drive files by path or id</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for drive_get {googledrive}"><tr><td>drive_get {googledrive}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Drive files by path or id</h2>
+
+<h3>Description</h3>
+
+<p>Retrieve metadata for files specified via path or via file id.
+</p>
+<p>If the files are specified via <code>path</code>, the returned <code><a href="dribble.html">dribble</a></code>
+will include a <code>path</code> variable. To add path information to any <code><a href="dribble.html">dribble</a></code>
+that lacks it, use <code><a href="drive_reveal.html">drive_reveal()</a></code>, e.g., <code>drive_reveal(d, "path")</code>. If
+you want to list the contents of a folder, use <code><a href="drive_ls.html">drive_ls()</a></code>. For general
+searching, use <code><a href="drive_find.html">drive_find()</a></code>.
+</p>
+<p>Note: <a href="https://gsuite.google.com/learning-center/products/drive/get-started-team-drive/">Team Drives</a>
+are only available to users of certain enhanced Google services, such as G
+Suite Enterprise, G Suite Business, or G Suite for Education.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+drive_get(path = NULL, id = NULL, team_drive = NULL, corpus = NULL,
+  verbose = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>Character vector of path(s) to get. Use a trailing slash to
+indicate explicitly that a path is a folder, which can disambiguate if
+there is a file of the same name (yes this is possible on Drive!). If
+<code>path</code> appears to contain Drive URLs or is explicitly marked with
+<code><a href="as_id.html">as_id()</a></code>, it is treated as if it was provided via the <code>id</code> argument.</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>Character vector of Drive file ids or URLs (it is first processed
+with <code><a href="as_id.html">as_id()</a></code>). If both <code>path</code> and <code>id</code> are non-<code>NULL</code>, <code>id</code> is silently
+ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>team_drive</code></td>
+<td>
+<p>Anything that identifies one specific Team Drive: its name,
+its id or URL marked with <code><a href="as_id.html">as_id()</a></code>, or a <code><a href="dribble.html">dribble</a></code>. Is pre-processed
+with <code><a href="as_team_drive.html">as_team_drive()</a></code>.  Read more about <a href="team_drives.html">Team Drives</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>corpus</code></td>
+<td>
+<p>Character, specifying the search collection. Only relevant in
+the Team Drives context. If specified, must be one of <code>"user"</code>, <code>"all"</code>, or
+<code>"domain"</code>. Read more about <a href="team_drives.html">Team Drives</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Logical, indicating whether to print informative messages
+(default <code>TRUE</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code><a href="dribble.html">dribble</a></code>, a tibble with one row per item.
+</p>
+
+
+<h3>Special considerations for paths</h3>
+
+<p>Note that Google Drive does NOT behave like your local file system:
+</p>
+
+<ul>
+<li><p> File and folder names need not be unique, even at a given level of
+the hierarchy. A single name or file path can be associated with multiple
+files (or zero or exactly one).
+</p>
+</li>
+<li><p> A file can have more than one direct parent. This implies that a
+single file can be represented by multiple paths.
+</p>
+</li></ul>
+
+<p>Bottom line: Do not assume there is a one-to-one relationship between file
+name or path and a Drive file or folder. This implies the length of the input
+(i.e. the number of input paths or the number of rows in a dribble) will not
+necessarily equal the number rows in the output.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Wraps the <code>files.get</code> endpoint and, if you specify files by name or
+path, also calls <code>files.list</code>:
+</p>
+
+<ul>
+<li> <p><a href="https://developers.google.com/drive/v3/reference/files/update">https://developers.google.com/drive/v3/reference/files/update</a>
+</p>
+</li>
+<li> <p><a href="https://developers.google.com/drive/v3/reference/files/list">https://developers.google.com/drive/v3/reference/files/list</a>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+## get info about your "My Drive" root folder
+drive_get("~/")
+## the API reserves the file id "root" for your root folder
+drive_get(id = "root")
+drive_get(id = "root") %&gt;% drive_reveal("path")
+
+## multiple names
+drive_get(c("abc", "def"))
+
+## multiple names, one of which must be a folder
+drive_get(c("abc", "def/"))
+
+## query by file id(s)
+drive_get(id = "abcdefgeh123456789")
+drive_get(as_id("abcdefgeh123456789"))
+drive_get(id = c("abcdefgh123456789", "jklmnopq123456789"))
+
+## apply to a browser URL for, e.g., a Google Sheet
+my_url &lt;- "https://docs.google.com/spreadsheets/d/FILE_ID/edit#gid=SHEET_ID")
+drive_get(my_url)
+drive_get(as_id(my_url))
+drive_get(id = my_url)
+
+## access the Team Drive named "foo"
+## team_drive params must be specified if getting by path
+foo &lt;- team_drive_get("foo")
+drive_get(c("this.jpg", "that-file"), team_drive = foo)
+## team_drive params are not necessary if getting by id
+drive_get(as_id("123456789"))
+
+## search all Team Drives and other files user has accessed
+drive_get(c("this.jpg", "that-file"), corpus = "all")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googledrive</em> version 1.0.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

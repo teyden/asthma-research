@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Shiny JavaScript Google Authorisation [Server Module]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_auth_js {googleAuthR}"><tr><td>gar_auth_js {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Shiny JavaScript Google Authorisation [Server Module]</h2>
+
+<h3>Description</h3>
+
+<p>Shiny Module for use with <a href="googleAuth_jsUI.html">gar_auth_jsUI</a>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_auth_js(...)
+
+googleAuth_js(input, output, session,
+  message = "Authenticate with your Google account")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <a href="googleAuth_js.html">googleAuth_js</a></p>
+</td></tr>
+<tr valign="top"><td><code>input</code></td>
+<td>
+<p>shiny input</p>
+</td></tr>
+<tr valign="top"><td><code>output</code></td>
+<td>
+<p>shiny output</p>
+</td></tr>
+<tr valign="top"><td><code>session</code></td>
+<td>
+<p>shiny session</p>
+</td></tr>
+<tr valign="top"><td><code>message</code></td>
+<td>
+<p>The message to show when not authenticated</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Call via <code>shiny::callModule(gar_auth_js, "your_id")</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A httr reactive OAuth2.0 token
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

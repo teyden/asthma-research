@@ -1,0 +1,47 @@
+Package: edgeR
+Version: 3.24.3
+Date: 2019-01-02
+Title: Empirical Analysis of Digital Gene Expression Data in R
+Description: Differential expression analysis of RNA-seq expression
+    profiles with biological replication. Implements a range of
+    statistical methodology based on the negative binomial
+    distributions, including empirical Bayes estimation, exact tests,
+    generalized linear models and quasi-likelihood tests. As well as
+    RNA-seq, it be applied to differential signal analysis of other
+    types of genomic data that produce counts, including ChIP-seq,
+    Bisulfite-seq, SAGE and CAGE.
+Author: Yunshun Chen <yuchen@wehi.edu.au>, Aaron Lun
+    <alun@wehi.edu.au>, Davis McCarthy <dmccarthy@wehi.edu.au>, Xiaobei
+    Zhou <xiaobei.zhou@uzh.ch>, Mark Robinson
+    <mark.robinson@imls.uzh.ch>, Gordon Smyth <smyth@wehi.edu.au>
+Maintainer: Yunshun Chen <yuchen@wehi.edu.au>, Aaron Lun
+    <alun@wehi.edu.au>, Mark Robinson <mark.robinson@imls.uzh.ch>,
+    Davis McCarthy <dmccarthy@wehi.edu.au>, Gordon Smyth
+    <smyth@wehi.edu.au>
+License: GPL (>=2)
+Depends: R (>= 2.15.0), limma (>= 3.34.5)
+Imports: graphics, stats, utils, methods, locfit, Rcpp
+Suggests: AnnotationDbi, jsonlite, org.Hs.eg.db, readr, rhdf5, splines
+LinkingTo: Rcpp
+URL: http://bioinf.wehi.edu.au/edgeR
+biocViews: GeneExpression, Transcription, AlternativeSplicing,
+    Coverage, DifferentialExpression, DifferentialSplicing,
+    DifferentialMethylation, GeneSetEnrichment, Pathways, Genetics,
+    DNAMethylation, Bayesian, Clustering, ChIPSeq, Regression,
+    TimeCourse, Sequencing, RNASeq, BatchEffect, SAGE, Normalization,
+    QualityControl, MultipleComparison, BiomedicalInformatics,
+    CellBiology, FunctionalGenomics, Epigenetics, Genetics,
+    ImmunoOncology, SystemsBiology, Transcriptomics
+NeedsCompilation: yes
+SystemRequirements: C++11
+git_url: https://git.bioconductor.org/packages/edgeR
+git_branch: RELEASE_3_8
+git_last_commit: d1260a2
+git_last_commit_date: 2019-01-01
+Date/Publication: 2019-01-02
+Packaged: 2019-01-03 00:07:56 UTC; biocbuild
+Built: R 3.5.2; x86_64-apple-darwin18.2.0; 2019-10-31 10:50:08 UTC;
+    unix
+InstallAgent: packrat 0.5.0.25
+InstallSource: Bioconductor
+Hash: 4e1c104bca7756dff1402f177f32804e

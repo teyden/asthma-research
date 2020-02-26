@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check a token vs options</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_check_existing_token {googleAuthR}"><tr><td>gar_check_existing_token {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check a token vs options</h2>
+
+<h3>Description</h3>
+
+<p>Useful for debugging authentication issues
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_check_existing_token(token = .auth$cred)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>token</code></td>
+<td>
+<p>A token to check, default current live session token</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Will compare the passed token's settings and compare to set options.  
+If these differ, then reauthentication may be needed.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>FALSE</code> if the options and current token do not match, <code>TRUE</code> if they do.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

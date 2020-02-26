@@ -1,0 +1,17 @@
+bibentry(
+    bibtype="Article",
+	title="Understand and Describe Bayesian Models and Posterior Distributions using bayestestR",
+	author=c(person("Dominique", "Makowski"), person("Mattan S.", "Ben-Shachar"), person("Daniel", "Lüdecke")),
+    journal="CRAN",
+    doi="10.5281/zenodo.2556486",
+	year="2019",
+	note="R package",
+	url="https://github.com/easystats/bayestestR",
+
+	textVersion =
+  	paste("Makowski, D., Ben-Shachar M. S. & Lüdecke, D. (2019). Understand and Describe Bayesian Models and Posterior Distributions using bayestestR. CRAN.",
+        "Available from https://github.com/easystats/bayestestR.",
+		"DOI: 10.5281/zenodo.2556486.",
+        sep=" "),
+
+	mheader = "To cite bayestestR in publications use:")

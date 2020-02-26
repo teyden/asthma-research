@@ -1,0 +1,23 @@
+Pearson0                The Pearson Type 0 (aka Normal) Distribution
+PearsonDS-package       Pearson Distribution System
+PearsonI                The Pearson Type I (aka Beta) Distribution
+PearsonII               The Pearson Type II (aka Symmetric Beta)
+                        Distribution
+PearsonIII              The Pearson Type III (aka Gamma) Distribution
+PearsonIV               The Pearson Type IV Distribution
+PearsonV                The Pearson Type V (aka Inverse Gamma)
+                        Distribution
+PearsonVI               The Pearson Type VI (aka Beta Prime)
+                        Distribution
+PearsonVII              The Pearson Type VII (aka Student's t)
+                        Distribution
+dpearson                The Pearson Distribution System
+empMoments              Empirical Moments
+pearsonDiagram          Regions of Pearson Distribution Types
+pearsonFitM             Method of Moments Estimator for Pearson
+                        Distributions
+pearsonFitML            Maximum Likelihood Estimation of Pearson
+                        Distributions
+pearsonMSC              Log-Likelihoods and Model Selection Criteria
+                        for different Pearson distribution types
+pearsonMoments          Moments of Pearson Distribution

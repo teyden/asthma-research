@@ -1,0 +1,50 @@
+---
+title: "In-Depth 2: Comparison of Indices of Effect Existence and Significance"
+output:
+  github_document:
+    toc: true
+    toc_depth: 3
+    fig_width: 10.08
+    fig_height: 6
+  word_document:
+    toc: true
+    toc_depth: 3
+    fig_width: 10.08
+    fig_height: 6
+    df_print: "kable"
+    highlight: "pygments"
+    reference_docx: templates/Template_Frontiers.docx
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+    fig_width: 10.08
+    fig_height: 6
+tags: [r, bayesian, posterior, test]
+vignette: >
+  \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{In-Depth 2: Comparison of Indices of Effect Existence}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+bibliography: bibliography.bib
+csl: apa.csl
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(knitr)
+options(knitr.kable.NA = '')
+knitr::opts_chunk$set(comment=">",
+  dpi=75)
+options(digits=2)
+```
+
+
+This vignette can be referred to by citing the package:
+
+- Makowski, D., Ben-Shachar M. S. \& Lüdecke, D. (2019). *Understand and Describe Bayesian Models and Posterior Distributions using bayestestR*. Available from https://github.com/easystats/bayestestR. DOI: [10.5281/zenodo.2556486](https://zenodo.org/record/2556486).
+
+---
+
+# Indices of Effect *Existence* and *Significance* in the Bayesian Framework
+
+This document is accessible [**here**](https://github.com/easystats/easystats/tree/master/publications/makowski_2019_bayesian).

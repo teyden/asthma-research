@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get Team Drives by name or id</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for team_drive_get {googledrive}"><tr><td>team_drive_get {googledrive}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Team Drives by name or id</h2>
+
+<h3>Description</h3>
+
+<p>Retrieve metadata for Team Drives specified via name or id. Note
+that Google Drive does NOT behave like your local file system:
+</p>
+
+<ul>
+<li><p> You can get zero, one, or more Team Drives back for each name! Team Drive
+names need not be unique.
+</p>
+</li></ul>
+
+<p>Note: <a href="https://gsuite.google.com/learning-center/products/drive/get-started-team-drive/">Team Drives</a>
+are only available to users of certain enhanced Google services, such as G
+Suite Enterprise, G Suite Business, or G Suite for Education.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+team_drive_get(name = NULL, id = NULL, verbose = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Character vector of names.  A character vector marked with
+<code><a href="as_id.html">as_id()</a></code> is treated as if it was provided via the <code>id</code> argument.</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>Character vector of Team Drive ids or URLs (it is first processed
+with <code><a href="as_id.html">as_id()</a></code>). If both <code>name</code> and <code>id</code> are non-<code>NULL</code>, <code>id</code> is silently
+ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Logical, indicating whether to print informative messages
+(default <code>TRUE</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code><a href="dribble.html">dribble</a></code>, a tibble with one row per item.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+team_drive_get("my-awesome-team-drive")
+team_drive_get(c("apple", "orange", "banana"))
+team_drive_get(as_id("KCmiHLXUk9PVA-0AJNG"))
+team_drive_get(as_id("https://drive.google.com/drive/u/0/folders/KCmiHLXUk9PVA-0AJNG"))
+team_drive_get(id = "KCmiHLXUk9PVA-0AJNG")
+team_drive_get(id = "https://drive.google.com/drive/u/0/folders/KCmiHLXUk9PVA-0AJNG")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googledrive</em> version 1.0.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

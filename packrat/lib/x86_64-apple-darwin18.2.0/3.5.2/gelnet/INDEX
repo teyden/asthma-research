@@ -1,0 +1,12 @@
+L1.ceiling              The largest meaningful value of the L1
+                        parameter
+adj2lapl                Generate a graph Laplacian
+adj2nlapl               Generate a normalized graph Laplacian
+gelnet                  GELnet for linear regression, binary
+                        classification and one-class problems.
+gelnet.cv               k-fold cross-validation for parameter tuning.
+gelnet.ker              Kernel models for linear regression, binary
+                        classification and one-class problems.
+gelnet.lin.obj          Linear regression objective function value
+gelnet.logreg.obj       Logistic regression objective function value
+gelnet.oneclass.obj     One-class regression objective function value

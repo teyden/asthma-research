@@ -1,0 +1,7 @@
+insert_or               Insert odds ratios of GAM(M)s into smoothing
+                        function
+or_gam                  Calculate odds ratios of Generalized Additive
+                        (Mixed) Models
+or_glm                  Calculate odds ratios of Generalized Linear
+                        (Mixed) Models
+plot_gam                Plot smoothing functions of GAM(M) models

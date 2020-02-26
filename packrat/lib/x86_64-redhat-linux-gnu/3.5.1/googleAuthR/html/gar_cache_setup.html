@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Setup where to put cache</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_cache_get_loc {googleAuthR}"><tr><td>gar_cache_get_loc {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Setup where to put cache</h2>
+
+<h3>Description</h3>
+
+<p>To cache to a file system use <code>memoise::cache_filesystem("cache_folder")</code>, 
+suitable for unit testing and works between R sessions. 
+</p>
+<p>The cached API calls do not need authentication to be active, but need this function to set caching first.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_cache_get_loc()
+
+gar_cache_empty()
+
+gar_cache_setup(mcache = memoise::cache_memory(),
+  invalid_func = function(req) {     tryCatch(req$status_code == 200,
+  error = function(x) FALSE) })
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mcache</code></td>
+<td>
+<p>A cache method from <a href="../../memoise/html/memoise.html">memoise</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>invalid_func</code></td>
+<td>
+<p>A function that takes API response, and returns <code>TRUE</code> or <code>FALSE</code> whether caching takes place. Default cache everything.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>TRUE</code> if successful.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+
+# demo function to cache within
+shorten_url_cache &lt;- function(url){
+  body = list(longUrl = url)
+  f &lt;- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                      "POST",
+                      data_parse_function = function(x) x)
+ f(the_body = body)
+ 
+ }
+ 
+ ## only cache if this URL
+ gar_cache_setup(invalid_func = function(req){
+      req$content$longUrl == "http://code.markedmondson.me/"
+ })
+ 
+ # authentication
+ gar_auth()
+ ## caches
+ shorten_url_cache("http://code.markedmondson.me")
+ 
+ ## read cache
+ shorten_url("http://code.markedmondson.me")
+ 
+ ## ..but dont cache me
+ shorten_url_cache("http://blahblah.com")
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

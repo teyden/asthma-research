@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create Authentication within Shiny's server.R</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_shiny_auth {googleAuthR}"><tr><td>gar_shiny_auth {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create Authentication within Shiny's server.R</h2>
+
+<h3>Description</h3>
+
+<p>This can be used at the top of the server function for authentication when you have used
+<a href="gar_shiny_ui.html">gar_shiny_ui</a> to create a login page for your ui function.
+</p>
+<p>In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via 'options(googleAuthR.redirect = http://your-shiny-url').  In other circumstances the Shiny app should be able to detect this itself.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_shiny_auth(session)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>session</code></td>
+<td>
+<p>Shiny session argument</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If using  <a href="gar_shiny_ui.html">gar_shiny_ui</a>, put this at the top of your server.R function
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Based on a gist by Joe Cheng, RStudio
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other pre-load shiny authentication: <code><a href="gar_shiny_auth_url.html">gar_shiny_auth_url</a></code>,
+<code><a href="gar_shiny_login_ui.html">gar_shiny_login_ui</a></code>,
+<code><a href="gar_shiny_ui.html">gar_shiny_ui</a></code>, <code><a href="silent_auth.html">silent_auth</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+library(shiny)
+library(googleAuthR)
+gar_set_client()
+
+fileSearch &lt;- function(query) {
+  googleAuthR::gar_api_generator("https://www.googleapis.com/drive/v3/files/",
+                                "GET",
+                                pars_args=list(q=query),
+                                data_parse_function = function(x) x$files)()
+}
+
+## ui.R
+ui &lt;- fluidPage(title = "googleAuthR Shiny Demo",
+                textInput("query", 
+                label = "Google Drive query", 
+                value = "mimeType != 'application/vnd.google-apps.folder'"),
+                tableOutput("gdrive")
+                )
+                
+## server.R
+server &lt;- function(input, output, session){
+
+# this is not reactive, no need as you only reach here authenticated
+gar_shiny_auth(session)
+
+output$gdrive &lt;- renderTable({
+  req(input$query)
+  
+  # no need for with_shiny()
+  fileSearch(input$query)
+  
+  })
+  }
+
+# gar_shiny_ui() needs to wrap the ui you have created above.
+shinyApp(gar_shiny_ui(ui), server)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

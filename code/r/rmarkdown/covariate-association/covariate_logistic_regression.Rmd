@@ -1,0 +1,106 @@
+---
+description: "Generic Script for Logistic Regression Testing"
+output: html_document
+params:
+  data: NULL
+  outcomes: NULL
+  predictors: NULL
+  covariates: NULL
+  confounders: NULL
+  plot_subtitle: ""
+  page_title: ""
+  output_objects_filename: "tmp.covlogreg.RData"
+  output_objects_filepath: "~/Projects/asthma/asthma-research/data/objects/"
+---
+
+```{r, include=FALSE}
+page_title <- params$page_title
+```
+
+# `r page_title`
+
+### Import utilities
+
+```{r import}
+source("~/Projects/asthma/asthma-research/code/r/PROJECT_GLOBAL_CONFIGS.R")
+import.project_utils()
+```
+
+### Import libraries
+```{r, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+install_package_if_missing(package_names = c("DT", "knitr", "ggplot2"))
+library(DT)
+library(knitr)
+library(ggplot2)
+```
+
+## Fit logistic regression models to all variables in the data
+```{r create_models, warning=FALSE}
+data <- params$data
+outcomes <- params$outcomes
+predictors <- params$predictors
+covariates <- params$covariates
+confounders <- params$confounders
+
+glm_output <- .run_multiple_logreg_tests(
+  outcomes = outcomes, 
+  predictors = predictors,
+  covariates = covariates,
+  confounders = confounders, 
+  data = data,
+  test = "binomial"
+)
+
+summary_pval_tables <- create_pval_odds_summary_table_with_covariates(glm_output)
+```
+
+## Variables investigated
+```{r}
+DT::datatable(data.frame(outcomes = outcomes))
+DT::datatable(data.frame(predictors = predictors))
+DT::datatable(data.frame(covariates = covariates))
+DT::datatable(data.frame(confounders = confounders))
+```
+
+## Results
+
+Show results for each outcome tested. 
+
+```{r create-markdown-chunks-dynamically, include=FALSE}
+out = c()
+tables <- list()
+section_headers <- list()
+
+i <- 1
+for (outcome in outcomes) {
+  section_headers[[i]] <- paste0("Test results for association with outcome: ", outcome)
+  table_for_outcome <- summary_pval_tables$summary_table[[outcome]]
+  table_for_outcome <- table_for_outcome[order(table_for_outcome$fdr.adj.p), ]
+  tables[[i]] <- table_for_outcome
+  i <- i + 1
+}
+for (i in 1:length(tables)) {
+  knit_expanded <- paste0("\n\n\n### `r section_headers[[", i, "]]` \n\n```{r results='asis', echo=FALSE, fig.height = 12, fig.width = 14}\n\nDT::datatable(tables[[", i, "]], options = list(scrollX = TRUE))\n\n\n\ncreate_pval_comparison_plot(summary_pval_tables, handle_pred_category = TRUE, plot_subtitle = params$plot_subtitle)\n\n\n```")
+  out = c(out, knit_expanded)
+}
+```
+
+`r paste(knit(text = out), collapse = '\n')`
+
+### Output data
+Use these files and objects for downstream analysis.
+```{r write_to_files}
+if (!is_string_blank(params$output_objects_filename)) {
+  save(glm_output, 
+       summary_pval_tables, 
+       list = c("glm_output", "summary_pval_tables"), 
+       file = generate_output_objects_filepath(params$output_objects_filename))
+} else if (is_string_blank(params$output_objects_filename) && !is_string_blank(params$output_objects_filepath)) {
+  save(glm_output, 
+       summary_pval_tables, 
+       list = c("glm_output", "summary_pval_tables"), 
+       file = params$output_objects_filepath)
+}
+```

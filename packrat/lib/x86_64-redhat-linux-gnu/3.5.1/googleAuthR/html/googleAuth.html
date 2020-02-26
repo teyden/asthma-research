@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Shiny Google Authorisation [Server Module]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for googleAuth {googleAuthR}"><tr><td>googleAuth {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Shiny Google Authorisation [Server Module]</h2>
+
+<h3>Description</h3>
+
+<p>Server part of shiny module, use with <a href="googleAuthUI.html">googleAuthUI</a>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+googleAuth(input, output, session, login_text = "Login via Google",
+  logout_text = "Logout", login_class = "btn btn-primary",
+  logout_class = "btn btn-default", access_type = c("online",
+  "offline"), approval_prompt = c("auto", "force"), revoke = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>input</code></td>
+<td>
+<p>shiny input</p>
+</td></tr>
+<tr valign="top"><td><code>output</code></td>
+<td>
+<p>shiny output</p>
+</td></tr>
+<tr valign="top"><td><code>session</code></td>
+<td>
+<p>shiny session</p>
+</td></tr>
+<tr valign="top"><td><code>login_text</code></td>
+<td>
+<p>What the login text will read on the button</p>
+</td></tr>
+<tr valign="top"><td><code>logout_text</code></td>
+<td>
+<p>What the logout text will read on the button</p>
+</td></tr>
+<tr valign="top"><td><code>login_class</code></td>
+<td>
+<p>The CSS class for the login link</p>
+</td></tr>
+<tr valign="top"><td><code>logout_class</code></td>
+<td>
+<p>The CSS class for the logout link</p>
+</td></tr>
+<tr valign="top"><td><code>access_type</code></td>
+<td>
+<p>Online or offline access for the authentication URL</p>
+</td></tr>
+<tr valign="top"><td><code>approval_prompt</code></td>
+<td>
+<p>Whether to show the consent screen on authentication</p>
+</td></tr>
+<tr valign="top"><td><code>revoke</code></td>
+<td>
+<p>If TRUE a user on logout will need to re-authenticate</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Call via <code>shiny::callModule(googleAuth, "your_ui_name", login_text = "Login")</code>
+</p>
+<p>In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via 'options(googleAuthR.redirect = http://your-shiny-url').  In other circumstances the Shiny app should be able to detect this itself.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A reactive authentication token
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other shiny module functions: <code><a href="googleAuthUI.html">googleAuthUI</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+options("googleAuthR.scopes.selected" = 
+  c("https://www.googleapis.com/auth/urlshortener"))
+
+shorten_url &lt;- function(url){
+  body = list(
+    longUrl = url
+ )
+ 
+ f &lt;- 
+   gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                     "POST",
+                     data_parse_function = function(x) x$id)
+                        
+ f(the_body = body)
+ 
+ }
+
+server &lt;- function(input, output, session){
+
+  ## Create access token and render login button
+  access_token &lt;- callModule(googleAuth, 
+                             "loginButton",
+                             login_text = "Login1")
+
+  short_url_output &lt;- eventReactive(input$submit, {
+    ## wrap existing function with_shiny
+    ## pass the reactive token in shiny_access_token
+    ## pass other named arguments
+    with_shiny(f = shorten_url, 
+               shiny_access_token = access_token(),
+               url=input$url)
+  })
+
+  output$short_url &lt;- renderText({
+
+    short_url_output()
+
+  })
+
+}
+
+## ui
+ui &lt;- fluidPage(
+  googleAuthUI("loginButton"),
+  textInput("url", "Enter URL"),
+  actionButton("submit", "Shorten URL"),
+  textOutput("short_url")
+)
+
+shinyApp(ui = ui, server = server)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

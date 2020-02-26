@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Takes a generated API function and lets you page through...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_api_page {googleAuthR}"><tr><td>gar_api_page {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Takes a generated API function and lets you page through results</h2>
+
+<h3>Description</h3>
+
+<p>A helper function to help with the common task of paging through large API results.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_api_page(f, page_f = function(x) x$nextLink, page_method = c("url",
+  "param", "path", "body"), page_arg = NULL, body_list = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>f</code></td>
+<td>
+<p>a function created by <a href="gar_api_generator.html">gar_api_generator</a></p>
+</td></tr>
+<tr valign="top"><td><code>page_f</code></td>
+<td>
+<p>A function that will extract the next page information from <code>f()</code>.  Should return <code>NULL</code> if no paging is required, or the value for <code>page_arg</code> if it is.</p>
+</td></tr>
+<tr valign="top"><td><code>page_method</code></td>
+<td>
+<p>Method of paging: <code>url</code> will fetch by changing the fetch URL; <code>param</code> will fetch the next page via a parameter set in <code>page_arg</code>; <code>path</code> will change a path variable set in <code>page_arg</code></p>
+</td></tr>
+<tr valign="top"><td><code>page_arg</code></td>
+<td>
+<p>If <code>page_method="param"</code>, you need to set this to the parameter that will change for each API page.</p>
+</td></tr>
+<tr valign="top"><td><code>body_list</code></td>
+<td>
+<p>If <code>page_method="body"</code>, you need to set the body that will be used in each API call, including the top level parameter <code>page_arg</code> that will be modified by <code>page_f</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>page_f</code> function operates on the object returned from the <code>data_parse_function</code> of the function <code>f</code>
+</p>
+<p>If using <code>page_method="url"</code> then then <code>page_f</code> function needs to return the URL that will fetch the next page of results.  The default finds this via <code>x$nextLink</code>.  This is the easiest to implement if available and is recommended. 
+</p>
+<p>If using <code>page_method = "param"</code>, then <code>page_f</code> needs to extract the parameter specified in <code>page_arg</code> that will fetch the next page of the results, or NULL if no more pages are required.
+e.g. if response is x,  <code>page_f</code> should extract the next value for the parameter of <code>page_arg</code> that fetches the next results.  It should also return <code>NULL</code> if no (more) paging is necessary.  See examples.
+Remember to add the paging argument (e.g. <code>start-index</code>) to the generated function too, so it can be modified.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of the API page responses, that you may need to process further into one object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+# demos the two methods for the same function.
+# The example is for the Google Analytics management API, 
+#  you need to authenticate with that to run them. 
+
+
+# paging by using nextLink that is returned in API response
+ga_segment_list1 &lt;- function(){
+
+  # this URL will be modified by using the url_override argument in the generated function
+  segs &lt;- gar_api_generator("https://www.googleapis.com/analytics/v3/management/segments",
+                            "GET",
+                            pars_args = list("max-results"=10),
+                            data_parse_function = function(x) x)
+                         
+                         
+  gar_api_page(segs, 
+               page_method = "url",
+               page_f = function(x) x$nextLink)
+
+}
+
+# paging by looking for the next start-index parameter
+
+## start by creating the function that will output the correct start-index
+paging_function &lt;- function(x){
+  next_entry &lt;- x$startIndex + x$itemsPerPage
+
+  # we have all results e.g. 1001 &gt; 1000
+  if(next_entry &gt; x$totalResults){
+    return(NULL)
+  }
+
+  next_entry
+  }
+  
+## remember to add the paging argument (start-index) to the generated function too, 
+##  so it can be modified.    
+ga_segment_list2 &lt;- function(){
+
+  segs &lt;- gar_api_generator("https://www.googleapis.com/analytics/v3/management/segments",
+                           "GET",
+                            pars_args = list("start-index" = 1,
+                                             "max-results"=10),
+                            data_parse_function = function(x) x)
+                           
+  gar_api_page(segs, 
+               page_method = "param",
+               page_f = paging_function,
+               page_arg = "start-index")
+
+  }
+
+
+identical(ga_segment_list1(), ga_segment_list2())
+
+
+
+## End(Not run)
+ 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

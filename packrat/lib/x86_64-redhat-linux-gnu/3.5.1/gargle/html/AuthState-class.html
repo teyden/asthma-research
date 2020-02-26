@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Authorization state</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for AuthState-class {gargle}"><tr><td>AuthState-class {gargle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Authorization state</h2>
+
+<h3>Description</h3>
+
+<p>An <code>AuthState</code> object manages an authorization state, typically on behalf of
+a client package that makes requests to a Google API.
+</p>
+<p>The <a href="https://gargle.r-lib.org/articles/gargle-auth-in-client-package.html">How to use gargle for auth in a client package</a>
+vignette describes a design for wrapper packages that relies on an <code>AuthState</code>
+object. This state can then be incorporated into the package's requests for
+tokens and can control the inclusion of tokens in requests to the target API.
+</p>
+
+<ul>
+<li> <p><code>api_key</code> is the simplest way to associate a request with a specific
+Google Cloud Platform <a href="https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy#projects">project</a>.
+A few calls to certain APIs, e.g. reading a public Sheet, can succeed
+with an API key, but this is the exception.
+</p>
+</li>
+<li> <p><code>app</code> is an OAuth app associated with a specific Google Cloud Platform
+<a href="https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy#projects">project</a>.
+This is used in the OAuth flow, in which an authenticated user authorizes
+the app to access or manipulate data on their behalf.
+</p>
+</li>
+<li> <p><code>auth_active</code> reflects whether outgoing requests will be authorized by an
+authenticated user or are unauthorized requests for public resources.
+These two states correspond to sending a request with a token versus an
+API key, respectively.
+</p>
+</li>
+<li> <p><code>cred</code> is where the current token is cached within a session, once one
+has been fetched. It is generally assumed to be an instance of
+<code><a href="../../httr/html/Token-class.html">httr::TokenServiceAccount</a></code> or
+<code><a href="../../httr/html/Token-class.html">httr::Token2.0</a></code> (or a subclass thereof), probably
+obtained via <code><a href="token_fetch.html">token_fetch()</a></code> (or one of its constituent credential
+fetching functions).
+</p>
+</li></ul>
+
+<p>An <code>AuthState</code> should be created through the constructor function
+<code><a href="init_AuthState.html">init_AuthState()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+AuthState
+</pre>
+
+
+<h3>Format</h3>
+
+<p>An R6 class object.</p>
+
+<hr /><div style="text-align: center;">[Package <em>gargle</em> version 0.4.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

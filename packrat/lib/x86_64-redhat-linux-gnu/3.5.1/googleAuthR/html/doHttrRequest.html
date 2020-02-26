@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get URL content based on if its Shiny or local</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for doHttrRequest {googleAuthR}"><tr><td>doHttrRequest {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get URL content based on if its Shiny or local</h2>
+
+<h3>Description</h3>
+
+<p>This changes the auth type depending on if its local or on Shiny
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+doHttrRequest(url, shiny_access_token = NULL, request_type = "GET",
+  the_body = NULL, customConfig = NULL,
+  simplifyVector = getOption("googleAuthR.jsonlite.simplifyVector"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>url</code></td>
+<td>
+<p>the url of the page to retrieve</p>
+</td></tr>
+<tr valign="top"><td><code>request_type</code></td>
+<td>
+<p>the type of httr request function: GET, POST, PUT, DELETE etc.</p>
+</td></tr>
+<tr valign="top"><td><code>the_body</code></td>
+<td>
+<p>body of POST request</p>
+</td></tr>
+<tr valign="top"><td><code>customConfig</code></td>
+<td>
+<p>list of httr options such as <code>httr::use_proxy</code>
+or <code>httr::add_headers</code> that will be added to the request.</p>
+</td></tr>
+<tr valign="top"><td><code>simplifyVector</code></td>
+<td>
+<p>Passed to jsonlite::fromJSON</p>
+</td></tr>
+<tr valign="top"><td><code>session</code></td>
+<td>
+<p>a shiny session object if in a shiny app.</p>
+</td></tr>
+<tr valign="top"><td><code>params</code></td>
+<td>
+<p>A named character vector of other parameters to add to request.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Example of params: c(param1=&quot;foo&quot;, param2=&quot;bar&quot;)
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

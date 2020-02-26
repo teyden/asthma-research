@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Coerce to Team Drive</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for as_team_drive {googledrive}"><tr><td>as_team_drive {googledrive}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Coerce to Team Drive</h2>
+
+<h3>Description</h3>
+
+<p>Converts various representations of Team Drive into a
+<code><a href="dribble.html">dribble</a></code>, the object used by googledrive to hold Drive file metadata.
+Team Drives can be specified via
+</p>
+
+<ul>
+<li><p> Name.
+</p>
+</li>
+<li><p> Team Drive id. Mark with <code><a href="as_id.html">as_id()</a></code> to distinguish from name.
+</p>
+</li>
+<li><p> Data frame or <code><a href="dribble.html">dribble</a></code> consisting solely of Team Drives.
+</p>
+</li>
+<li><p> List representing <a href="https://developers.google.com/drive/v3/reference/teamdrives#resource-representations">Team Drive resource</a>
+objects. Mostly for internal use.
+</p>
+</li></ul>
+
+<p>Note: <a href="https://gsuite.google.com/learning-center/products/drive/get-started-team-drive/">Team Drives</a>
+are only available to users of certain enhanced Google services, such as G
+Suite Enterprise, G Suite Business, or G Suite for Education.
+</p>
+<p>This is a generic function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+as_team_drive(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A vector of Team Drive names, a vector of Team Drive ids marked
+with <code><a href="as_id.html">as_id()</a></code>, a list of Team Drive Resource objects, or a suitable data
+frame.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed down to methods. (Not used.)</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+## specify the name
+as_team_drive("abc")
+
+## specify the id (substitute one of your own!)
+as_team_drive(as_id("0AOPK1X2jaNckUk9PVA"))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googledrive</em> version 1.0.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

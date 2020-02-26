@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Authorize 'googleAuthR'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_auth {googleAuthR}"><tr><td>gar_auth {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Authorize <code>googleAuthR</code></h2>
+
+<h3>Description</h3>
+
+<p>Wrapper of <a href="../../gargle/html/token_fetch.html">token_fetch</a>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_auth(token = NULL, email = NULL,
+  scopes = getOption("googleAuthR.scopes.selected"),
+  app = gar_oauth_app(), cache = gargle::gargle_oauth_cache(),
+  use_oob = gargle::gargle_oob_default(), package = "googleAuthR",
+  new_user = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>token</code></td>
+<td>
+<p>an actual token object or the path to a valid token stored as an
+<code>.rds</code> file</p>
+</td></tr>
+<tr valign="top"><td><code>email</code></td>
+<td>
+<p>An existing gargle cached email to authenticate with or TRUE to authenticate with the only email available.</p>
+</td></tr>
+<tr valign="top"><td><code>scopes</code></td>
+<td>
+<p>Scope of the request</p>
+</td></tr>
+<tr valign="top"><td><code>app</code></td>
+<td>
+<p>app as specified by <a href="gar_auth_configure.html">gar_auth_configure</a></p>
+</td></tr>
+<tr valign="top"><td><code>cache</code></td>
+<td>
+<p>Where to store authentication tokens</p>
+</td></tr>
+<tr valign="top"><td><code>use_oob</code></td>
+<td>
+<p>Whther to use OOB browserless authetication</p>
+</td></tr>
+<tr valign="top"><td><code>package</code></td>
+<td>
+<p>The name of the package authenticating</p>
+</td></tr>
+<tr valign="top"><td><code>new_user</code></td>
+<td>
+<p>Deprecated, not used</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an OAuth token object, specifically a
+<code><a href="../../httr/html/Token-class.html">Token2.0</a></code>, invisibly
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other authentication functions: <code><a href="gar_attach_auto_auth.html">gar_attach_auto_auth</a></code>,
+<code><a href="gar_auth_service.html">gar_auth_service</a></code>,
+<code><a href="gar_auto_auth.html">gar_auto_auth</a></code>, <code><a href="gar_gce_auth.html">gar_gce_auth</a></code>,
+<code><a href="get_google_token.html">get_google_token</a></code>,
+<code><a href="token_exists.html">token_exists</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+
+# sets GCP project to auth through
+gar_auth_configure(path="path/to/gcp-client.json")
+
+# starts auth process with defaults
+gar_auth()
+
+# switching between auth scopes
+# first time new scope manual auth, then auto if supplied email   
+gar_auth(email = "your@email.com", 
+         scopes = "https://www.googleapis.com/auth/drive")
+         
+# ... query Google Drive functions ...
+
+gar_auth(email = "your@email.com", 
+         scopes = "https://www.googleapis.com/auth/bigquery")
+         
+# ..query BigQuery functions ...
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

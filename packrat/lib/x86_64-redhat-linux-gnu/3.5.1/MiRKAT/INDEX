@@ -1,0 +1,13 @@
+D2K                     Construct kernel matrix from distance metric
+KRV                     Kernel RV Coefficient Test
+MMiRKAT                 Multivariate Microbiome Regression-based Kernel
+                        Association Test
+MiRKAT                  Microbiome Regression-based Kernel Association
+                        Test
+MiRKATS                 Microbiome Regression-based Kernel Association
+                        Test for Survival
+throat.meta             Meta data of the throat microbiome samples
+throat.otu.tab          OTU count table from 16S sequencing of the
+                        throat microbiome samples
+throat.tree             UPGMA tree of the OTUs from 16S sequencing of
+                        the throat microbiome samples

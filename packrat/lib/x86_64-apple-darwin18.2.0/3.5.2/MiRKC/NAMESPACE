@@ -1,0 +1,14 @@
+useDynLib(MiRKC, .registration = TRUE)
+
+import(survival)
+import(PearsonDS)
+import(GUniFrac)
+import(MASS)
+importFrom("stats", "binomial", "cov", "glm", "lm", "model.matrix",
+             "pchisq", "resid", "median")
+
+export(MiRKC)
+export(D2K)
+export(MiRKATS)
+export(MMiRKAT)
+export(KRV)

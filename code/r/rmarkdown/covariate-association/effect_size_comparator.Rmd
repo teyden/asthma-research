@@ -1,0 +1,74 @@
+---
+title: "Effect Size Comparator"
+output: html_document
+params:
+  diff_tables: NULL
+  diff_plots: NULL
+  cov_summary: NULL
+  page_title: ""
+  plot_subtitle: ""
+---
+
+```{r, include=FALSE}
+options(width = 1500)
+page_title <- params$page_title
+```
+
+# `r page_title`
+
+### Import libraries
+```{r, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+source("~/Projects/asthma/asthma-research/code/r/PROJECT_GLOBAL_CONFIGS.R")
+import.project_utils()
+
+install_package_if_missing(package_names = c("DT", "knitr", "ggplot2"))
+
+library(DT)
+library(knitr)
+library(ggplot2)
+```
+
+#### Note:
+- "change": directionality set so that it's read as (+) = increase in risk and (-) = decrease in risk from the simple model to the multiple model
+- covariate summary table represents top 25% of covariates for a specific set of multiple regression models, based on the median change in effect (oddsratio difference) of predictor variable estimates
+- the correlation criteria: r >= 0.15, p < 0.07
+
+```{r create-markdown-chunks-dynamically, include=FALSE}
+out = c()
+tables <- list()
+scatter_plots <- list()
+magnitude_plots <- list()
+top_covariates <- list()
+section_headers <- list()
+line_break <- "<br><br><br><br>"
+column_order <- 
+  c("predictor", "pred_category", "covariate", "change", "percent_chg", "mult_adj.p", "sig.mult", "cov.out.cor", "pred.out.cor", "simp_adj.p",  "sig.simp", "simp_risk", "mult_risk") 
+
+i <- 1
+for (outcome in diff_tables$outcomes) {
+  section_headers[[i]] <- paste0("Test results for association with outcome: ", outcome)
+  table_for_outcome <- diff_tables[[outcome]][["diff_table"]]
+  ## Do some minimal preprocessing of the table so that it displays in a more user-friendly way. Easier for sorting and viewing.
+  table_for_outcome$`cov.out.cor` <- table_for_outcome$covout_is_corr
+  table_for_outcome$`pred.out.cor` <- table_for_outcome$predout_is_corr
+  table_for_outcome$percent_chg <- abs(table_for_outcome$percent_chg)
+  table_for_outcome <- table_for_outcome[order(table_for_outcome$covariate, table_for_outcome$predictor, table_for_outcome$mult_adj.p), ]
+  table_for_outcome$outcome <- NULL
+  table_for_outcome$covout_is_corr <- NULL
+  table_for_outcome$predout_is_corr <- NULL
+  table_for_outcome <- table_for_outcome[, column_order]
+  tables[[i]] <- table_for_outcome
+  scatter_plots[[i]] <- diff_plots[[outcome]]
+  magnitude_plots[[i]] <- cov_summary[[outcome]][["plots"]]
+  top_covariates[[i]] <- cov_summary[[outcome]][["cov_summary"]]
+  i <- i + 1
+}
+for (i in 1:length(tables)) {
+  knit_expanded <- paste0("\n\n\n## `r section_headers[[", i, "]]` \n\n```{r results='asis', warning=FALSE, echo=FALSE, fig.height = 12, fig.width = 14}\n\nDT::datatable(tables[[", i, "]], options = list(scrollX = TRUE, autoWidth = TRUE, columnDefs = list(list(width = '50px', targets = c(1, 3)))))\nprint(line_break)\nscatter_plots[[", i, "]]\nprint(line_break)\nDT::datatable(top_covariates[[", i, "]], options = list(scrollX = TRUE, autoWidth = TRUE, columnDefs = list(list(width = '50px', targets = c(1, 3)))))\nprint(line_break)\nmagnitude_plots[[", i, "]]\nprint(line_break)\n``` \n\n")
+  out = c(out, knit_expanded)
+}
+```
+
+`r paste(knit(text = out), collapse = '\n')`

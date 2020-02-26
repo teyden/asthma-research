@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Produce configured token</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_token {googleAuthR}"><tr><td>gar_token {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Produce configured token</h2>
+
+<h3>Description</h3>
+
+<p>For internal use or for those programming around the Google API.
+Returns a token pre-processed with [httr::config()]. Most users
+do not need to handle tokens &quot;by hand&quot; or, even if they need some
+control, [gar_auth()] is what they need. If there is no current
+token, [gar_auth()] is called to either load from cache or
+initiate OAuth2.0 flow.
+If auth has been deactivated via [gar_deauth()], 'gar_token()'
+returns 'NULL'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_token()
+</pre>
+
+
+<h3>Value</h3>
+
+<p>A 'request' object (an S3 class provided by [httr][httr::httr]).
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other low-level API functions: <code><a href="gar_has_token.html">gar_has_token</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+req &lt;- request_generate(
+  "drive.files.get",
+  list(fileId = "abc"),
+  token = gar_token()
+)
+req
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

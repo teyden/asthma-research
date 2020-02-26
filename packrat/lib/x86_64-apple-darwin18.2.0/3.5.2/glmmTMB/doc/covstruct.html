@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Kasper Kristensen" />
+
+<meta name="date" content="2019-01-11" />
+
+<title>Covariance structures with glmmTMB</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Covariance structures with glmmTMB</h1>
+<h4 class="author"><em>Kasper Kristensen</em></h4>
+<h4 class="date"><em>2019-01-11</em></h4>
+
+
+
+<p>This vignette demonstrates some of the covariance structures available in the <code>glmmTMB</code> package. Currently the available covariance structures are:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Covariance</th>
+<th>Notation</th>
+<th>Parameter count</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Heterogeneous unstructured</td>
+<td><code>us</code></td>
+<td><span class="math inline">\(n(n+1)/2\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Heterogeneous Toeplitz</td>
+<td><code>toep</code></td>
+<td><span class="math inline">\(2n-1\)</span></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Heterogeneous compound symmetry</td>
+<td><code>cs</code></td>
+<td><span class="math inline">\(n+1\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Heterogeneous diagonal</td>
+<td><code>diag</code></td>
+<td><span class="math inline">\(n\)</span></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>AR(1)</td>
+<td><code>ar1</code></td>
+<td><span class="math inline">\(2\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Ornstein–Uhlenbeck</td>
+<td><code>ou</code></td>
+<td><span class="math inline">\(2\)</span></td>
+<td>Coordinates</td>
+</tr>
+<tr class="odd">
+<td>Spatial exponential</td>
+<td><code>exp</code></td>
+<td><span class="math inline">\(2\)</span></td>
+<td>Coordinates</td>
+</tr>
+<tr class="even">
+<td>Spatial Gaussian</td>
+<td><code>gau</code></td>
+<td><span class="math inline">\(2\)</span></td>
+<td>Coordinates</td>
+</tr>
+<tr class="odd">
+<td>Spatial Matern</td>
+<td><code>mat</code></td>
+<td><span class="math inline">\(3\)</span></td>
+<td>Coordinates</td>
+</tr>
+</tbody>
+</table>
+<p>The word ‘heterogeneous’ refers to the marginal variances of the model. Beyond correlation parameters, a heterogeneous structure uses <span class="math inline">\(n\)</span> additional variance parameters where <span class="math inline">\(n\)</span> is the dimension.</p>
+<p>Some of the structures require temporal or spatial coordinates. We will show examples of this in a later section.</p>
+<div id="the-ar1-covariance-structure" class="section level2">
+<h2>The AR(1) covariance structure</h2>
+<div id="demonstration-on-simulated-data" class="section level3">
+<h3>Demonstration on simulated data</h3>
+<p>First, let’s consider a simple time series model. Assume that our measurements <span class="math inline">\(Y(t)\)</span> are given at discrete times <span class="math inline">\(t \in \{1,...,n\}\)</span> by</p>
+<p><span class="math display">\[Y(t) = \mu + X(t) + \varepsilon(t)\]</span></p>
+<p>where</p>
+<ul>
+<li><span class="math inline">\(\mu\)</span> is the mean value parameter.</li>
+<li><span class="math inline">\(X(t)\)</span> is a stationary AR(1) process, i.e. has covariance <span class="math inline">\(cov(X(s),  X(t)) = \sigma^2\exp(-\theta |t-s|)\)</span>.</li>
+<li><span class="math inline">\(\varepsilon(t)\)</span> is iid. <span class="math inline">\(N(0,\sigma_0^2)\)</span> measurement error.</li>
+</ul>
+<p>A simulation experiment is set up using the parameters</p>
+<table>
+<thead>
+<tr class="header">
+<th>Description</th>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td><span class="math inline">\(\mu\)</span></td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Process variance</td>
+<td><span class="math inline">\(\sigma^2\)</span></td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Measurement variance</td>
+<td><span class="math inline">\(\sigma_0^2\)</span></td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>One-step correlation</td>
+<td><span class="math inline">\(e^{-\theta}\)</span></td>
+<td>0.7</td>
+</tr>
+</tbody>
+</table>
+<p>The following R-code draws a simulation based on these parameter values. For illustration purposes we consider a very short time series.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="dv">6</span>                                              ## Number of time points
+x &lt;-<span class="st"> </span><span class="kw">mvrnorm</span>(<span class="dt">mu =</span> <span class="kw">rep</span>(<span class="dv">0</span>,n),
+             <span class="dt">Sigma =</span> .<span class="dv">7</span> <span class="op">^</span><span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">dist</span>(<span class="dv">1</span><span class="op">:</span>n)) )    ## Simulate the process using the MASS package
+y &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n)                                   ## Add measurement noise</code></pre></div>
+<p>In order to fit the model with <code>glmmTMB</code> we must first specify a time variable as a <em>factor</em>. The factor <em>levels</em> correspond to unit spaced time points.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">times &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="dv">1</span><span class="op">:</span>n)
+<span class="kw">levels</span>(times)</code></pre></div>
+<p>We also need a grouping variable. In the current case there is only one time-series so the grouping is:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">group &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">rep</span>(<span class="dv">1</span>,n))</code></pre></div>
+<p>We combine the data into a single data frame (not absolutely required, but good practice):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat0 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(y,times,group)</code></pre></div>
+<p>Now fit the model using</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glmmTMB</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">ar1</span>(times <span class="op">+</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>group), <span class="dt">data=</span>dat0)</code></pre></div>
+<p>This formula notation follows that of the <code>lme4</code> package.</p>
+<ul>
+<li>The left hand side of the bar <code>times + 0</code> corresponds to a design matrix <span class="math inline">\(Z\)</span> linking observation vector <span class="math inline">\(y\)</span> (rows) with a random effects vector <span class="math inline">\(u\)</span> (columns).</li>
+<li>The distribution of <span class="math inline">\(u\)</span> is <code>ar1</code> (this is the only <code>glmmTMB</code> specific part of the formula).</li>
+<li>The right hand side of the bar splits the above specification independently among groups. Each group has its own separate <span class="math inline">\(u\)</span> vector but shares the same parameters for the covariance structure.</li>
+</ul>
+<p>After running the model, we find the parameter estimates <span class="math inline">\(\mu\)</span> (intercept), <span class="math inline">\(\sigma_0^2\)</span> (dispersion), <span class="math inline">\(\sigma\)</span> (Std. Dev.) and <span class="math inline">\(e^{-\theta}\)</span> (First off-diagonal of “Corr”) in the output:</p>
+<blockquote>
+<p>FIXME: Try a longer time series when the print.VarCorr is fixed.</p>
+</blockquote>
+</div>
+<div id="increasing-the-sample-size" class="section level3">
+<h3>Increasing the sample size</h3>
+<p>A single time series of 6 time points is not sufficient to identify the parameters. We could either increase the length of the time series or increase the number of groups. We’ll try the latter:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simGroup &lt;-<span class="st"> </span><span class="cf">function</span>(g) {
+    x &lt;-<span class="st"> </span><span class="kw">mvrnorm</span>(<span class="dt">mu =</span> <span class="kw">rep</span>(<span class="dv">0</span>,n),
+             <span class="dt">Sigma =</span> .<span class="dv">7</span> <span class="op">^</span><span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">dist</span>(<span class="dv">1</span><span class="op">:</span>n)) )    ## Simulate the process
+    y &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n)                               ## Add measurement noise
+    times &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="dv">1</span><span class="op">:</span>n)
+    group &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">rep</span>(g,n))
+    <span class="kw">data.frame</span>(y, times, group)
+}
+<span class="kw">simGroup</span>(<span class="dv">1</span>)</code></pre></div>
+<p>Generate a dataset with 1000 groups:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat1 &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&quot;rbind&quot;</span>, <span class="kw">lapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">1000</span>, simGroup) )</code></pre></div>
+<p>And fitting the model on this larger dataset gives estimates close to the true values:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(fit.ar1 &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">ar1</span>(times <span class="op">+</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>group), <span class="dt">data=</span>dat1))</code></pre></div>
+</div>
+</div>
+<div id="the-unstructured-covariance" class="section level2">
+<h2>The unstructured covariance</h2>
+<p>We can try to fit an unstructured covariance to the previous dataset <code>dat</code>. For this case an unstructured covariance has 15 correlation parameters and 6 variance parameters. Adding <span class="math inline">\(\sigma_0^2 I\)</span> on top would cause a strict overparameterization. Hence, when fitting the model with <code>glmmTMB</code>, we have to disable the <span class="math inline">\(\varepsilon\)</span> term (the dispersion):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit.us &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">us</span>(times <span class="op">+</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>group), <span class="dt">data=</span>dat1, <span class="dt">dispformula=</span><span class="op">~</span><span class="dv">0</span>)
+fit.us<span class="op">$</span>sdr<span class="op">$</span>pdHess ## Converged ?</code></pre></div>
+<p>The estimated variance and correlation parameters are:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">VarCorr</span>(fit.us)</code></pre></div>
+<p>The estimated correlation is approximately constant along diagonals (apparent Toeplitz structure) and we note that the first off-diagonal is now ca. half the true value (0.7) because the dispersion is effectively included in the estimated covariance matrix.</p>
+</div>
+<div id="the-toeplitz-structure" class="section level2">
+<h2>The Toeplitz structure</h2>
+<p>The next natural step would be to reduce the number of parameters by collecting correlation parameters within the same off-diagonal. This amounts to 5 correlation parameters and 6 variance parameters.</p>
+<blockquote>
+<p>FIXME: Explain why dispformula=~1 causes over-parameterization</p>
+</blockquote>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit.toep &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">toep</span>(times <span class="op">+</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>group), <span class="dt">data=</span>dat1, <span class="dt">dispformula=</span><span class="op">~</span><span class="dv">0</span>)
+fit.toep<span class="op">$</span>sdr<span class="op">$</span>pdHess ## Converged ?</code></pre></div>
+<p>The estimated variance and correlation parameters are:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">VarCorr</span>(fit.toep)</code></pre></div>
+<p>The residual variance appears downward biased. REML estimation (currently not part of <code>glmmTMB</code>) would probably give a better estimate of the variance and thereby the correlation parameters.</p>
+<blockquote>
+<p>FIXME: Add REML argument to glmmTMB</p>
+</blockquote>
+</div>
+<div id="compound-symmetry" class="section level2">
+<h2>Compound symmetry</h2>
+<p>The compound symmetry structure collects all off-diagonal elements of the correlation matrix to one common value.</p>
+<blockquote>
+<p>FIXME: Explain why dispformula=~1 causes over-parameterization</p>
+</blockquote>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit.cs &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">cs</span>(times <span class="op">+</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>group), <span class="dt">data=</span>dat1, <span class="dt">dispformula=</span><span class="op">~</span><span class="dv">0</span>)
+fit.cs<span class="op">$</span>sdr<span class="op">$</span>pdHess ## Converged ?</code></pre></div>
+<p>The estimated variance and correlation parameters are:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">VarCorr</span>(fit.cs)</code></pre></div>
+</div>
+<div id="anova-tables" class="section level2">
+<h2>Anova tables</h2>
+<p>The models ar1, toep, and us are nested so we can use:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(fit.ar1, fit.toep, fit.us)</code></pre></div>
+<p>The model <code>cs</code> is a sub-model of <code>toep</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(fit.cs, fit.toep)</code></pre></div>
+</div>
+<div id="adding-coordinate-information" class="section level2">
+<h2>Adding coordinate information</h2>
+<p>Coordinate information can be added to a variable using the <code>glmmTMB</code> function <code>numFactor</code>. This is necessary in order to use those covariance structures that require coordinates. For example, if we have the numeric coordinates</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">10</span>, <span class="dt">replace=</span><span class="ot">TRUE</span>)
+y &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">10</span>, <span class="dt">replace=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p>we can generate a factor representing <span class="math inline">\((x,y)\)</span> coordinates by</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(pos &lt;-<span class="st"> </span><span class="kw">numFactor</span>(x,y))</code></pre></div>
+<p>Numeric coordinates can be recovered from the factor levels:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parseNumLevels</span>(<span class="kw">levels</span>(pos))</code></pre></div>
+<p>In order to try the remaining structures on our test data we re-interpret the time factor using <code>numFactor</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat1<span class="op">$</span>times &lt;-<span class="st"> </span><span class="kw">numFactor</span>(dat1<span class="op">$</span>times)
+<span class="kw">levels</span>(dat1<span class="op">$</span>times)</code></pre></div>
+</div>
+<div id="ornsteinuhlenbeck" class="section level2">
+<h2>Ornstein–Uhlenbeck</h2>
+<p>Having the numeric times encoded in the factor levels we can now try the Ornstein–Uhlenbeck covariance structure.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit.ou &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">ou</span>(times <span class="op">+</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>group), <span class="dt">data=</span>dat1)
+fit.ou<span class="op">$</span>sdr<span class="op">$</span>pdHess ## Converged ?</code></pre></div>
+<p>It should give the exact same results as <code>ar1</code> in this case since the times are equidistant:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">VarCorr</span>(fit.ou)</code></pre></div>
+<p>However, note the differences between <code>ou</code> and <code>ar1</code>:</p>
+<ul>
+<li><code>ou</code> can handle irregular time points.</li>
+<li><code>ou</code> only allows positive correlation between neighboring time points.</li>
+</ul>
+</div>
+<div id="spatial-correlations" class="section level2">
+<h2>Spatial correlations</h2>
+<p>The structures <code>exp</code>, <code>gau</code> and <code>mat</code> are meant to used for spatial data. They all require a Euclidean distance matrix which is calculated internally based on the coordinates. Here, we will try these models on the simulated time series data.</p>
+<p>An example with spatial data is presented in a later section.</p>
+<div id="matern" class="section level3">
+<h3>Matern</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit.mat &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">mat</span>(times <span class="op">+</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>group), <span class="dt">data=</span>dat1, <span class="dt">dispformula=</span><span class="op">~</span><span class="dv">0</span>)
+fit.mat<span class="op">$</span>sdr<span class="op">$</span>pdHess ## Converged ?</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">VarCorr</span>(fit.mat)</code></pre></div>
+</div>
+<div id="gaussian" class="section level3">
+<h3>Gaussian</h3>
+<p>“Gaussian” refers here to a Gaussian decay in correlation with distance, i.e. <span class="math inline">\(\rho = \exp(-d x^2)\)</span>, not to the conditional distribution (“family”).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit.gau &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">gau</span>(times <span class="op">+</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>group), <span class="dt">data=</span>dat1, <span class="dt">dispformula=</span><span class="op">~</span><span class="dv">0</span>)
+fit.gau<span class="op">$</span>sdr<span class="op">$</span>pdHess ## Converged ?</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">VarCorr</span>(fit.gau)</code></pre></div>
+</div>
+<div id="exponential" class="section level3">
+<h3>Exponential</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit.exp &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">exp</span>(times <span class="op">+</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>group), <span class="dt">data=</span>dat1)
+fit.exp<span class="op">$</span>sdr<span class="op">$</span>pdHess ## Converged ?</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">VarCorr</span>(fit.exp)</code></pre></div>
+</div>
+<div id="a-spatial-covariance-example" class="section level3">
+<h3>A spatial covariance example</h3>
+<p>Starting out with the built in <code>volcano</code> dataset we reshape it to a <code>data.frame</code> with pixel intensity <code>z</code> and pixel position <code>x</code> and <code>y</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">z =</span> <span class="kw">as.vector</span>(volcano),
+                <span class="dt">x =</span> <span class="kw">as.vector</span>(<span class="kw">row</span>(volcano)),
+                <span class="dt">y =</span> <span class="kw">as.vector</span>(<span class="kw">col</span>(volcano)))</code></pre></div>
+<p>Next, add random normal noise to the pixel intensities and extract a small subset of 100 pixels. This is our spatial dataset:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
+d<span class="op">$</span>z &lt;-<span class="st"> </span>d<span class="op">$</span>z <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(volcano), <span class="dt">sd=</span><span class="dv">15</span>)
+d &lt;-<span class="st"> </span>d[<span class="kw">sample</span>(<span class="kw">nrow</span>(d), <span class="dv">100</span>), ]</code></pre></div>
+<p>Display sampled noisy volcano data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">volcano.data &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="ot">NA</span>, <span class="kw">dim</span>(volcano))
+volcano.data[<span class="kw">cbind</span>(d<span class="op">$</span>x, d<span class="op">$</span>y)] &lt;-<span class="st"> </span>d<span class="op">$</span>z
+<span class="kw">image</span>(volcano.data, <span class="dt">main=</span><span class="st">&quot;Spatial data&quot;</span>)</code></pre></div>
+<p>Based on this data, we’ll attempt to re-construct the original image.</p>
+<p>As model, it is assumed that the original image <code>image(volcano)</code> is a realization of a random field with correlation decaying exponentially with distance between pixels.</p>
+<p>Denoting by <span class="math inline">\(u(x,y)\)</span> this random field the model for the observations is</p>
+<p><span class="math display">\[ z_{i} = \mu + u(x_i,y_i) + \varepsilon_i \]</span></p>
+<p>To fit the model, a <code>numFactor</code> and a dummy grouping variable must be added to the dataset:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d<span class="op">$</span>pos &lt;-<span class="st"> </span><span class="kw">numFactor</span>(d<span class="op">$</span>x, d<span class="op">$</span>y)
+d<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="kw">nrow</span>(d)))</code></pre></div>
+<p>The model is fit by</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="kw">glmmTMB</span>(z <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(pos <span class="op">+</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>group), <span class="dt">data=</span>d)</code></pre></div>
+<p>Recall that a standard deviation <code>sd=15</code> was used to distort the image. A confidence interval for this parameter is</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(f, <span class="st">&quot;sigma&quot;</span>)</code></pre></div>
+<p>The glmmTMB <code>predict</code> method can predict unseen levels of the random effects. For instance to predict a 3-by-3 corner of the image one could construct the new data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>( <span class="dt">pos=</span><span class="kw">numFactor</span>(<span class="kw">expand.grid</span>(<span class="dt">x=</span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dt">y=</span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)) )
+newdata<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="kw">nrow</span>(newdata)))
+newdata</code></pre></div>
+<p>and predict using</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(f, newdata, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>, <span class="dt">allow.new.levels=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p>A specific image column can thus be predicted using the function</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predict_col &lt;-<span class="st"> </span><span class="cf">function</span>(i) {
+    newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>( <span class="dt">pos =</span> <span class="kw">numFactor</span>(<span class="kw">expand.grid</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">87</span>,i)))
+    newdata<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(newdata)))
+    <span class="kw">predict</span>(f, <span class="dt">newdata=</span>newdata, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>, <span class="dt">allow.new.levels=</span><span class="ot">TRUE</span>)
+}</code></pre></div>
+<p>Prediction of the entire image is carried out by (this takes a while…):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">61</span>, predict_col)</code></pre></div>
+<p>Finally plot the re-constructed image by</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">image</span>(pred, <span class="dt">main=</span><span class="st">&quot;Reconstruction&quot;</span>)</code></pre></div>
+</div>
+</div>
+<div id="mappings" class="section level2">
+<h2>Mappings</h2>
+<p>For various advanced purposes, such as computing likelihood profiles, it is useful to know the details of the parameterization of the models - the scale on which the parameters are defined (e.g. standard deviation, variance, or log-standard deviation for variance parameters) and their order.</p>
+<div id="unstructured" class="section level3">
+<h3>Unstructured</h3>
+<p>For an unstructured matrix of size <code>n</code> parameters <code>1:n</code> represent the log-standard deviations while the remaining <code>n(n-1)/2</code> (i.e. <code>(n+1):(n:(n*(n+1)/2))</code>) are the elements of the <em>scaled</em> Cholesky factor of the correlation matrix, filled in row-wise order (see <a href="http://kaskr.github.io/adcomp/classUNSTRUCTURED__CORR__t.html">TMB documentation</a>). In particular, if <span class="math inline">\(L\)</span> is the lower-triangular matrix with 1 on the diagonal and the correlation parameters in the lower triangle, then the correlation matrix is defined as <span class="math inline">\(\Sigma = D^{-1/2} L L^\top D^{-1/2}\)</span>, where <span class="math inline">\(D = \textrm{diag}(L L^\top)\)</span>. For a single correlation parameter <span class="math inline">\(\theta_0\)</span>, this works out to <span class="math inline">\(\rho = \theta_0/(1+\theta_0^2)\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vv0 &lt;-<span class="st"> </span><span class="kw">VarCorr</span>(fit.us)
+vv1 &lt;-<span class="st"> </span>vv0<span class="op">$</span>cond<span class="op">$</span>group          ## extract 'naked' V-C matrix
+n &lt;-<span class="st"> </span><span class="kw">nrow</span>(vv1)
+rpars &lt;-<span class="st"> </span><span class="kw">getME</span>(fit.us,<span class="st">&quot;theta&quot;</span>) ## extract V-C parameters
+## first n parameters are log-std devs:
+<span class="kw">all.equal</span>(<span class="kw">unname</span>(<span class="kw">diag</span>(vv1)),<span class="kw">exp</span>(rpars[<span class="dv">1</span><span class="op">:</span>n])<span class="op">^</span><span class="dv">2</span>)
+## now try correlation parameters:
+cpars &lt;-<span class="st"> </span>rpars[<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span>n)]
+<span class="kw">length</span>(cpars)<span class="op">==</span>n<span class="op">*</span>(n<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">2</span>      ## the expected number
+cc &lt;-<span class="st"> </span><span class="kw">diag</span>(n)
+cc[<span class="kw">upper.tri</span>(cc)] &lt;-<span class="st"> </span>cpars
+L &lt;-<span class="st"> </span><span class="kw">crossprod</span>(cc)
+D &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dv">1</span><span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">diag</span>(L)))
+D <span class="op">%*%</span><span class="st"> </span>L <span class="op">%*%</span><span class="st"> </span>D
+<span class="kw">unname</span>(<span class="kw">attr</span>(vv1,<span class="st">&quot;correlation&quot;</span>))</code></pre></div>
+<blockquote>
+<p>FIXME: why are these not quite the same? Not what I expected</p>
+</blockquote>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(<span class="kw">c</span>(<span class="kw">cov2cor</span>(vv1)),<span class="kw">c</span>(fit.us<span class="op">$</span>obj<span class="op">$</span>env<span class="op">$</span><span class="kw">report</span>(fit.us<span class="op">$</span>fit<span class="op">$</span>parfull)<span class="op">$</span>corr[[<span class="dv">1</span>]]))</code></pre></div>
+<p>Profiling (experimental/exploratory):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## want $par, not $parfull: do NOT include conditional modes/'b' parameters
+ppar &lt;-<span class="st"> </span>fit.us<span class="op">$</span>fit<span class="op">$</span>par
+<span class="kw">length</span>(ppar)
+<span class="kw">range</span>(<span class="kw">which</span>(<span class="kw">names</span>(ppar)<span class="op">==</span><span class="st">&quot;theta&quot;</span>)) ## the last n*(n+1)/2 parameters
+## only 1 fixed effect parameter
+tt &lt;-<span class="st"> </span><span class="kw">tmbprofile</span>(fit.us<span class="op">$</span>obj,<span class="dv">2</span>,<span class="dt">trace=</span><span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(tt)
+<span class="kw">confint</span>(tt)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ppar &lt;-<span class="st"> </span>fit.cs<span class="op">$</span>fit<span class="op">$</span>par
+<span class="kw">length</span>(ppar)
+<span class="kw">range</span>(<span class="kw">which</span>(<span class="kw">names</span>(ppar)<span class="op">==</span><span class="st">&quot;theta&quot;</span>)) ## the last n*(n+1)/2 parameters
+## only 1 fixed effect parameter, 1 dispersion parameter
+tt2 &lt;-<span class="st"> </span><span class="kw">tmbprofile</span>(fit.cs<span class="op">$</span>obj,<span class="dv">3</span>,<span class="dt">trace=</span><span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(tt2)</code></pre></div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

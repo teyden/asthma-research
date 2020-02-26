@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find Team Drives</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for team_drive_find {googledrive}"><tr><td>team_drive_find {googledrive}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find Team Drives</h2>
+
+<h3>Description</h3>
+
+<p>This is the closest googledrive function to what you get from
+visiting <a href="https://drive.google.com">https://drive.google.com</a> and clicking &quot;Team Drives&quot;.
+</p>
+<p>Note: <a href="https://gsuite.google.com/learning-center/products/drive/get-started-team-drive/">Team Drives</a>
+are only available to users of certain enhanced Google services, such as G
+Suite Enterprise, G Suite Business, or G Suite for Education.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+team_drive_find(pattern = NULL, n_max = Inf, ..., verbose = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>Character. If provided, only the items whose names match this
+regular expression are returned. This is implemented locally on the results
+returned by the API.</p>
+</td></tr>
+<tr valign="top"><td><code>n_max</code></td>
+<td>
+<p>Integer. An upper bound on the number of items to return. This
+applies to the results requested from the API, which may be further
+filtered locally, via the <code>pattern</code> argument.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters to pass along in the request, such as <code>pageSize</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Logical, indicating whether to print informative messages
+(default <code>TRUE</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code><a href="dribble.html">dribble</a></code>, a tibble with one row per item.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Wraps the <code>teamdrives.list</code> endpoint::
+</p>
+
+<ul>
+<li> <p><a href="https://developers.google.com/drive/v3/reference/teamdrives/list">https://developers.google.com/drive/v3/reference/teamdrives/list</a>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+team_drive_find()
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googledrive</em> version 1.0.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

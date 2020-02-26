@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: googleAuthR data fetch function generator</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_api_generator {googleAuthR}"><tr><td>gar_api_generator {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>googleAuthR data fetch function generator</h2>
+
+<h3>Description</h3>
+
+<p>This function generates other functions for use with Google APIs
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT",
+  "DELETE", "PATCH"), path_args = NULL, pars_args = NULL,
+  data_parse_function = NULL, customConfig = NULL,
+  simplifyVector = getOption("googleAuthR.jsonlite.simplifyVector"),
+  checkTrailingSlash = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>baseURI</code></td>
+<td>
+<p>The stem of the API call.</p>
+</td></tr>
+<tr valign="top"><td><code>http_header</code></td>
+<td>
+<p>Type of http request.</p>
+</td></tr>
+<tr valign="top"><td><code>path_args</code></td>
+<td>
+<p>A named list with name=folder in request URI, value=the function variable.</p>
+</td></tr>
+<tr valign="top"><td><code>pars_args</code></td>
+<td>
+<p>A named list with name=parameter in request URI, value=the function variable.</p>
+</td></tr>
+<tr valign="top"><td><code>data_parse_function</code></td>
+<td>
+<p>A function that takes a request response, parses it and returns the data you need.</p>
+</td></tr>
+<tr valign="top"><td><code>customConfig</code></td>
+<td>
+<p>list of httr options such as <a href="../../httr/html/use_proxy.html">use_proxy</a>
+or <a href="../../httr/html/add_headers.html">add_headers</a> that will be added to the request.</p>
+</td></tr>
+<tr valign="top"><td><code>simplifyVector</code></td>
+<td>
+<p>Passed to <a href="../../jsonlite/html/fromJSON.html">fromJSON</a> for response parsing</p>
+</td></tr>
+<tr valign="top"><td><code>checkTrailingSlash</code></td>
+<td>
+<p>Default TRUE will append a trailing slash to baseURI if missing</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>path_args</strong> and <strong>pars_args</strong> add default values to the baseURI.
+NULL entries are removed. Use &quot;&quot; if you want an empty argument.
+</p>
+<p>You don't need to supply access_token for OAuth2 requests in pars_args,
+this is dealt with in gar_auth()
+</p>
+<p>Add custom configurations to the request in this syntax:
+<code>customConfig = list(httr::add_headers("From" = "mark@example.com")</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A function that can fetch the Google API data you specify
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+library(googleAuthR)
+## change the native googleAuthR scopes to the one needed.
+options("googleAuthR.scopes.selected" = "email")
+
+get_email &lt;- function(){
+   f &lt;- gar_api_generator("https://openidconnect.googleapis.com/v1/userinfo",
+                          "POST",
+                          data_parse_function = function(x) x$email,
+                          checkTrailingSlash = FALSE)
+                          
+   f()
+   }
+
+To use the above functions:
+library(googleAuthR)
+# go through authentication flow
+gar_auth()
+s &lt;- get_email()
+s
+
+## End(Not run)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

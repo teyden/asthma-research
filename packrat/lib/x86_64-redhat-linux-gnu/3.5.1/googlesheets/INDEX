@@ -1,0 +1,35 @@
+cell-specification      Specify cells for reading or writing
+example-sheets          Examples of Google Sheets
+extract_key_from_url    Extract sheet key from a URL
+gd_token                Retrieve and report on the current token
+gd_user                 Retrieve information about the current Google
+                        user
+googlesheet             Register a Google Sheet
+googlesheets            'googlesheets' package
+gs_add_row              Append rows to a spreadsheet
+gs_auth                 Authorize 'googlesheets'
+gs_browse               Visit a Google Sheet in the browser
+gs_copy                 Copy an existing spreadsheet
+gs_deauth               Suspend authorization
+gs_delete               Delete a spreadsheet
+gs_download             Download a spreadsheet
+gs_edit_cells           Edit cells
+gs_grepdel              Delete several spreadsheets at once by title
+gs_inspect              Visual overview of populated cells
+gs_ls                   List sheets a la Google Sheets home screen
+gs_new                  Create a new spreadsheet
+gs_read                 Read data
+gs_read_cellfeed        Read data from cells
+gs_read_csv             Read data via the 'exportcsv' link
+gs_read_listfeed        Read data via the "list feed"
+gs_rename               Rename a spreadsheet
+gs_reshape_cellfeed     Reshape data from the "cell feed"
+gs_simplify_cellfeed    Simplify data from the "cell feed"
+gs_upload               Upload a file and convert it to a Google Sheet
+gs_webapp_auth_url      Build URL for authentication
+gs_webapp_get_token     Exchange authorization code for an access token
+gs_ws_delete            Delete a worksheet from a spreadsheet
+gs_ws_ls                List the worksheets in a spreadsheet
+gs_ws_new               Add a new worksheet within a spreadsheet
+gs_ws_rename            Rename a worksheet within a spreadsheet
+print.googlesheet       Print info about a 'googlesheet' object

@@ -1,0 +1,35 @@
+Table                   Table Object
+bigQueryR               bigQueryR
+bqr_auth                Authenticate this session
+bqr_copy_dataset        Copy datasets
+bqr_copy_table          Copy BigQuery table
+bqr_create_table        Create a Table
+bqr_delete_table        Delete a Table
+bqr_download_extract    Download extract data
+bqr_download_query      Download data from BigQuery to local folder
+bqr_extract_data        Extract data asynchronously
+bqr_get_global_dataset
+                        Get global dataset name
+bqr_get_global_project
+                        Get global project name
+bqr_get_job             Poll a jobId
+bqr_global_dataset      Set global dataset name
+bqr_global_project      Set global project name
+bqr_grant_extract_access
+                        Grant access to an extract on Google Cloud
+                        Storage
+bqr_list_datasets       List BigQuery datasets
+bqr_list_jobs           List BigQuery jobs
+bqr_list_projects       List Google Dev Console projects you have
+                        access to
+bqr_list_tables         List BigQuery tables in a dataset
+bqr_partition           Convert date-sharded tables to a single
+                        partitioned table
+bqr_patch_table         Update a Table
+bqr_query               Query a BigQuery Table
+bqr_query_asynch        BigQuery query asynchronously
+bqr_table_data          Get BigQuery Table's data list
+bqr_table_meta          Get BigQuery Table meta data
+bqr_upload_data         Upload data to BigQuery
+bqr_wait_for_job        Wait for a bigQuery job
+schema_fields           Create data schema for upload to BigQuery

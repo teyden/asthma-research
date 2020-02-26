@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: Google Analytics API into R</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+<h1> Google Analytics API into R
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;googleAnalyticsR&rsquo; version 0.7.0</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="googleAnalyticsR.html">googleAnalyticsR-package</a></td>
+<td>Library for getting Google Analytics data into R</td></tr>
+<tr><td style="width: 25%;"><a href="authDropdown.html">authDropdown</a></td>
+<td>authDropdown [Shiny Module]</td></tr>
+<tr><td style="width: 25%;"><a href="authDropdownUI.html">authDropdownUI</a></td>
+<td>authDropdown UI [Shiny Module]</td></tr>
+<tr><td style="width: 25%;"><a href="dim_filter.html">dim_filter</a></td>
+<td>Make a dimension filter object</td></tr>
+<tr><td style="width: 25%;"><a href="fetch_google_analytics_4.html">fetch_google_analytics_4</a></td>
+<td>Fetch multiple GAv4 requests</td></tr>
+<tr><td style="width: 25%;"><a href="fetch_google_analytics_4_slow.html">fetch_google_analytics_4_slow</a></td>
+<td>Fetch GAv4 requests one at a time</td></tr>
+<tr><td style="width: 25%;"><a href="filter_clause_ga4.html">filter_clause_ga4</a></td>
+<td>Make a dimension or metric filter clause object</td></tr>
+<tr><td style="width: 25%;"><a href="ga_accounts.html">ga_accounts</a></td>
+<td>List account metadata</td></tr>
+<tr><td style="width: 25%;"><a href="ga_account_list.html">ga_account_list</a></td>
+<td>Account summary for all accounts available to your user</td></tr>
+<tr><td style="width: 25%;"><a href="ga_adwords.html">ga_adwords</a></td>
+<td>Get AdWords Link meta data</td></tr>
+<tr><td style="width: 25%;"><a href="ga_adwords_add_linkid.html">ga_adwords_add_linkid</a></td>
+<td>Creates a Google Analytics webProperty-Google Ads link</td></tr>
+<tr><td style="width: 25%;"><a href="ga_adwords_delete_linkid.html">ga_adwords_delete_linkid</a></td>
+<td>Deletes a Google Analytics webProperty-Google Ads link</td></tr>
+<tr><td style="width: 25%;"><a href="ga_adwords_list.html">ga_adwords_list</a></td>
+<td>List AdWords</td></tr>
+<tr><td style="width: 25%;"><a href="ga_aggregate.html">ga_aggregate</a></td>
+<td>Aggregate a Google Analytics dataframe over inputted columns</td></tr>
+<tr><td style="width: 25%;"><a href="ga_allowed_metric_dim.html">ga_allowed_metric_dim</a></td>
+<td>Create named list of allowed GA metrics/dimensions</td></tr>
+<tr><td style="width: 25%;"><a href="ga_auth.html">ga_auth</a></td>
+<td>Authenticate with Google Analytics OAuth2</td></tr>
+<tr><td style="width: 25%;"><a href="ga_cache_call.html">ga_cache_call</a></td>
+<td>Setup caching of API calls</td></tr>
+<tr><td style="width: 25%;"><a href="ga_clientid_activity.html">ga_clientid_activity</a></td>
+<td>User Activity Request</td></tr>
+<tr><td style="width: 25%;"><a href="ga_clientid_activity_unnest.html">ga_clientid_activity_unnest</a></td>
+<td>Unnest user activity columns</td></tr>
+<tr><td style="width: 25%;"><a href="ga_clientid_deletion.html">ga_clientid_deletion</a></td>
+<td>Create or update a user deletion request</td></tr>
+<tr><td style="width: 25%;"><a href="ga_clientid_hash.html">ga_clientid_hash</a></td>
+<td>Get hashed version of client id (also known as hashClientId, hashedClientId, or BigQuery's fullVisitorId)</td></tr>
+<tr><td style="width: 25%;"><a href="ga_custom_datasource.html">ga_custom_datasource</a></td>
+<td>List Custom Data Sources</td></tr>
+<tr><td style="width: 25%;"><a href="ga_custom_upload.html">ga_custom_upload</a></td>
+<td>Custom Data Source Upload Status</td></tr>
+<tr><td style="width: 25%;"><a href="ga_custom_upload_delete.html">ga_custom_upload_delete</a></td>
+<td>Deletes custom upload files for a given ids vector</td></tr>
+<tr><td style="width: 25%;"><a href="ga_custom_upload_file.html">ga_custom_upload_file</a></td>
+<td>Upload data to Google Analytics</td></tr>
+<tr><td style="width: 25%;"><a href="ga_custom_upload_list.html">ga_custom_upload_list</a></td>
+<td>List Custom Data Source Uploads</td></tr>
+<tr><td style="width: 25%;"><a href="ga_custom_vars.html">ga_custom_vars</a></td>
+<td>Get Custom Dimensions or Metrics</td></tr>
+<tr><td style="width: 25%;"><a href="ga_custom_vars_create.html">ga_custom_vars_create</a></td>
+<td>Create a custom dimension</td></tr>
+<tr><td style="width: 25%;"><a href="ga_custom_vars_list.html">ga_custom_vars_list</a></td>
+<td>List Custom Dimensions or Metrics</td></tr>
+<tr><td style="width: 25%;"><a href="ga_custom_vars_patch.html">ga_custom_vars_patch</a></td>
+<td>Modify a custom dimension</td></tr>
+<tr><td style="width: 25%;"><a href="ga_experiment.html">ga_experiment</a></td>
+<td>Experiments Meta data</td></tr>
+<tr><td style="width: 25%;"><a href="ga_experiment_list.html">ga_experiment_list</a></td>
+<td>List Experiments</td></tr>
+<tr><td style="width: 25%;"><a href="ga_filter.html">ga_filter</a></td>
+<td>Get specific filter for account</td></tr>
+<tr><td style="width: 25%;"><a href="ga_filter_add.html">ga_filter_add</a></td>
+<td>Create a new filter and add it to the view (optional).</td></tr>
+<tr><td style="width: 25%;"><a href="ga_filter_apply_to_view.html">ga_filter_apply_to_view</a></td>
+<td>Apply an existing filter to view.</td></tr>
+<tr><td style="width: 25%;"><a href="ga_filter_delete.html">ga_filter_delete</a></td>
+<td>Delete a filter from account or remove from view.</td></tr>
+<tr><td style="width: 25%;"><a href="ga_filter_list.html">ga_filter_list</a></td>
+<td>List filters for account</td></tr>
+<tr><td style="width: 25%;"><a href="ga_filter_update.html">ga_filter_update</a></td>
+<td>Updates an existing filter.</td></tr>
+<tr><td style="width: 25%;"><a href="ga_filter_update_filter_link.html">ga_filter_update_filter_link</a></td>
+<td>Update an existing profile filter link. Patch semantics supported</td></tr>
+<tr><td style="width: 25%;"><a href="ga_filter_view.html">ga_filter_view</a></td>
+<td>Get specific filter for view (profile)</td></tr>
+<tr><td style="width: 25%;"><a href="ga_filter_view_list.html">ga_filter_view_list</a></td>
+<td>List filters for view (profile)</td></tr>
+<tr><td style="width: 25%;"><a href="ga_goal.html">ga_goal</a></td>
+<td>Get goal</td></tr>
+<tr><td style="width: 25%;"><a href="ga_goal_add.html">ga_goal_add</a></td>
+<td>Create a new goal.</td></tr>
+<tr><td style="width: 25%;"><a href="ga_goal_list.html">ga_goal_list</a></td>
+<td>List goals</td></tr>
+<tr><td style="width: 25%;"><a href="ga_goal_update.html">ga_goal_update</a></td>
+<td>Updates an existing goal.</td></tr>
+<tr><td style="width: 25%;"><a href="ga_meta.html">ga_meta</a></td>
+<td>Get current dimensions and metrics available in GA API.</td></tr>
+<tr><td style="width: 25%;"><a href="ga_model.html">ga_model</a></td>
+<td>Use a model function created by ga_model_make</td></tr>
+<tr><td style="width: 25%;"><a href="ga_model_edit.html">ga_model_edit</a></td>
+<td>Edit a created ga_model</td></tr>
+<tr><td style="width: 25%;"><a href="ga_model_example.html">ga_model_example</a></td>
+<td>Load an example model</td></tr>
+<tr><td style="width: 25%;"><a href="ga_model_load.html">ga_model_load</a></td>
+<td>Load a created model</td></tr>
+<tr><td style="width: 25%;"><a href="ga_model_make.html">ga_model_make</a></td>
+<td>Modelling function factory for Google Analytics data</td></tr>
+<tr><td style="width: 25%;"><a href="ga_model_save.html">ga_model_save</a></td>
+<td>Save a created model</td></tr>
+<tr><td style="width: 25%;"><a href="ga_model_tweet.html">ga_model_tweet</a></td>
+<td>Upload an interactive visualisation so it can be embedded in a tweet</td></tr>
+<tr><td style="width: 25%;"><a href="ga_model_write.html">ga_model_write</a></td>
+<td>Write the ga_model functions to a file</td></tr>
+<tr><td style="width: 25%;"><a href="ga_remarketing_build.html">ga_remarketing_build</a></td>
+<td>Create a remarketing audience for creation</td></tr>
+<tr><td style="width: 25%;"><a href="ga_remarketing_create.html">ga_remarketing_create</a></td>
+<td>Create a new remarketing audience</td></tr>
+<tr><td style="width: 25%;"><a href="ga_remarketing_estimate.html">ga_remarketing_estimate</a></td>
+<td>Estimate number of users added to the segment yesterday</td></tr>
+<tr><td style="width: 25%;"><a href="ga_remarketing_get.html">ga_remarketing_get</a></td>
+<td>Get a remarketing audience</td></tr>
+<tr><td style="width: 25%;"><a href="ga_remarketing_list.html">ga_remarketing_list</a></td>
+<td>List remarketing audiences</td></tr>
+<tr><td style="width: 25%;"><a href="ga_segment_list.html">ga_segment_list</a></td>
+<td>Get segments user has access to</td></tr>
+<tr><td style="width: 25%;"><a href="ga_unsampled.html">ga_unsampled</a></td>
+<td>Get Unsampled Report Meta Data</td></tr>
+<tr><td style="width: 25%;"><a href="ga_unsampled_download.html">ga_unsampled_download</a></td>
+<td>Download Unsampled Report from Google Drive. You must be authenticated with the same account that you setup the unsampled report. This means service account authentication is not supported.</td></tr>
+<tr><td style="width: 25%;"><a href="ga_unsampled_list.html">ga_unsampled_list</a></td>
+<td>List Unsampled Reports</td></tr>
+<tr><td style="width: 25%;"><a href="ga_users_add.html">ga_users_add</a></td>
+<td>Create or update user access to Google Analytics</td></tr>
+<tr><td style="width: 25%;"><a href="ga_users_delete.html">ga_users_delete</a></td>
+<td>Delete all user access for an email</td></tr>
+<tr><td style="width: 25%;"><a href="ga_users_delete_linkid.html">ga_users_delete_linkid</a></td>
+<td>Delete users access from account, webproperty or view level</td></tr>
+<tr><td style="width: 25%;"><a href="ga_users_list.html">ga_users_list</a></td>
+<td>List Users</td></tr>
+<tr><td style="width: 25%;"><a href="ga_users_update.html">ga_users_update</a></td>
+<td>Update a user access in Google Analytics</td></tr>
+<tr><td style="width: 25%;"><a href="ga_view.html">ga_view</a></td>
+<td>Get single View (Profile)</td></tr>
+<tr><td style="width: 25%;"><a href="ga_view_list.html">ga_view_list</a></td>
+<td>List View (Profile)</td></tr>
+<tr><td style="width: 25%;"><a href="ga_webproperty.html">ga_webproperty</a></td>
+<td>Get a web property</td></tr>
+<tr><td style="width: 25%;"><a href="ga_webproperty_list.html">ga_webproperty_list</a></td>
+<td>List web properties</td></tr>
+<tr><td style="width: 25%;"><a href="googleAnalyticsR.html">googleAnalyticsR</a></td>
+<td>Library for getting Google Analytics data into R</td></tr>
+<tr><td style="width: 25%;"><a href="google_analytics.html">google_analytics</a></td>
+<td>Get Google Analytics v4 data</td></tr>
+<tr><td style="width: 25%;"><a href="google_analytics_3.html">google_analytics_3</a></td>
+<td>Get Google Analytics v3 data (formerly google_analytics())</td></tr>
+<tr><td style="width: 25%;"><a href="google_analytics.html">google_analytics_4</a></td>
+<td>Get Google Analytics v4 data</td></tr>
+<tr><td style="width: 25%;"><a href="google_analytics_bq.html">google_analytics_bq</a></td>
+<td>Get Google Analytics 360 BigQuery data</td></tr>
+<tr><td style="width: 25%;"><a href="make_cohort_group.html">make_cohort_group</a></td>
+<td>Create a cohort group</td></tr>
+<tr><td style="width: 25%;"><a href="make_ga_4_req.html">make_ga_4_req</a></td>
+<td>Make a Google Analytics v4 API fetch</td></tr>
+<tr><td style="width: 25%;"><a href="meta.html">meta</a></td>
+<td>Google Analytics API metadata</td></tr>
+<tr><td style="width: 25%;"><a href="met_filter.html">met_filter</a></td>
+<td>Make a metric filter object</td></tr>
+<tr><td style="width: 25%;"><a href="multi_select.html">multi_select</a></td>
+<td>multi_select [Shiny Module]</td></tr>
+<tr><td style="width: 25%;"><a href="multi_selectUI.html">multi_selectUI</a></td>
+<td>multi_select UI [Shiny Module]</td></tr>
+<tr><td style="width: 25%;"><a href="order_type.html">order_type</a></td>
+<td>Make an OrderType object</td></tr>
+<tr><td style="width: 25%;"><a href="pivot_ga4.html">pivot_ga4</a></td>
+<td>Make a pivot object</td></tr>
+<tr><td style="width: 25%;"><a href="segmentBuilder.html">segmentBuilder</a></td>
+<td>Create a GAv4 Segment Builder</td></tr>
+<tr><td style="width: 25%;"><a href="segmentBuilderUI.html">segmentBuilderUI</a></td>
+<td>Create a GAv4 Segment Builder</td></tr>
+<tr><td style="width: 25%;"><a href="segment_define.html">segment_define</a></td>
+<td>Make a segment definition</td></tr>
+<tr><td style="width: 25%;"><a href="segment_element.html">segment_element</a></td>
+<td>Make a segment element</td></tr>
+<tr><td style="width: 25%;"><a href="segment_ga4.html">segment_ga4</a></td>
+<td>Make a segment object for use</td></tr>
+<tr><td style="width: 25%;"><a href="segment_vector_sequence.html">segment_vector_sequence</a></td>
+<td>Make sequenceSegment</td></tr>
+<tr><td style="width: 25%;"><a href="segment_vector_simple.html">segment_vector_simple</a></td>
+<td>Make a simple segment vector</td></tr>
+</table>
+</body></html>

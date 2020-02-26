@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: JSON service account authentication</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_auth_service {googleAuthR}"><tr><td>gar_auth_service {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>JSON service account authentication</h2>
+
+<h3>Description</h3>
+
+<p>As well as OAuth2 authentication, 
+you can authenticate without user interaction via Service accounts.  
+This involves downloading a secret JSON key with the authentication
+details.
+</p>
+<p>To use, go to your Project in 
+the https://console.developers.google.com/apis/credentials/serviceaccountkey
+</p>
+<p>and select JSON Key type.  Save the file 
+to your computer and call it via supplying 
+the file path to the <code>json_file</code> parameter.
+</p>
+<p>Navigate to it via: 
+Google Dev Console &gt; Credentials &gt; New credentials &gt; Service account Key &gt; 
+Select service account &gt; Key type = JSON
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_auth_service(json_file,
+  scope = getOption("googleAuthR.scopes.selected"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>json_file</code></td>
+<td>
+<p>the JSON file downloaded from Google Developer Console</p>
+</td></tr>
+<tr valign="top"><td><code>scope</code></td>
+<td>
+<p>Scope of the JSON file auth if needed</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>(Invisible) Sets authentication token
+</p>
+
+
+<h3>See Also</h3>
+
+<p>https://developers.google.com/identity/protocols/OAuth2ServiceAccount
+</p>
+<p>https://developers.google.com/identity/protocols/OAuth2ServiceAccount
+</p>
+<p>Other authentication functions: <code><a href="gar_attach_auto_auth.html">gar_attach_auto_auth</a></code>,
+<code><a href="gar_auth.html">gar_auth</a></code>, <code><a href="gar_auto_auth.html">gar_auto_auth</a></code>,
+<code><a href="gar_gce_auth.html">gar_gce_auth</a></code>,
+<code><a href="get_google_token.html">get_google_token</a></code>,
+<code><a href="token_exists.html">token_exists</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

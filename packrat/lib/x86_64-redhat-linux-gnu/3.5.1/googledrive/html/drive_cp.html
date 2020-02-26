@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Copy a Drive file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for drive_cp {googledrive}"><tr><td>drive_cp {googledrive}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Copy a Drive file</h2>
+
+<h3>Description</h3>
+
+<p>Copies an existing Drive file into a new file id.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+drive_cp(file, path = NULL, name = NULL, ..., overwrite = NA,
+  verbose = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>Something that identifies the file of interest on your Google
+Drive. Can be a name or path, a file id or URL marked with <code><a href="as_id.html">as_id()</a></code>, or a
+<code><a href="dribble.html">dribble</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>Specifies target destination for the new file on Google
+Drive. Can be an actual path (character), a file id marked with <code><a href="as_id.html">as_id()</a></code>,
+or a <code><a href="dribble.html">dribble</a></code>. If specified as an actual path, it is best to explicitly
+indicate if it's a folder by including a trailing slash, since it cannot
+always be worked out from the context of the call. Defaults to &quot;Copy of <code>FILE-NAME</code>&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Character, new file name if not specified as part of
+<code>path</code>. This will force <code>path</code> to be treated as a folder, even if it is
+character and lacks a trailing slash. Defaults to &quot;Copy of <code>FILE-NAME</code>&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Named parameters to pass along to the Drive API. Has the tidy dots
+semantics that come from using <code><a href="../../rlang/html/list2.html">rlang::list2()</a></code>. You can affect the
+metadata of the target file by specifying properties of the Files resource
+via <code>...</code>. Read the &quot;Request body&quot; section of the Drive API docs for the
+associated endpoint to learn about relevant parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>Logical, indicating whether to check for a pre-existing file
+at the targetted &quot;filepath&quot;. The quotes around &quot;filepath&quot; refer to the fact
+that Drive does not impose a 1-to-1 relationship between filepaths and files,
+like a typical file system; read more about that in <code><a href="drive_get.html">drive_get()</a></code>.
+</p>
+
+<ul>
+<li> <p><code>NA</code> (default): Just do the operation, even if it results in multiple
+files with the same filepath.
+</p>
+</li>
+<li> <p><code>TRUE</code>: Check for a pre-existing file at the filepath. If there is
+zero or one, move a pre-existing file to the trash, then carry on. Note
+that the new file does not inherit any properties from the old one, such
+as sharing or publishing settings. It will have a new file ID. An error is
+thrown if two or more pre-existing files are found.
+</p>
+</li>
+<li> <p><code>FALSE</code>: Error if there is any pre-existing file at the filepath.
+</p>
+</li></ul>
+
+<p>Note that existence checks, based on filepath, are expensive operations, i.e.
+they require additional API calls.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Logical, indicating whether to print informative messages
+(default <code>TRUE</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code><a href="dribble.html">dribble</a></code>, a tibble with one row per item.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Wraps the <code>files.copy</code> endpoint:
+</p>
+
+<ul>
+<li> <p><a href="https://developers.google.com/drive/v3/reference/files/copy">https://developers.google.com/drive/v3/reference/files/copy</a>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+## Create a file to copy
+file &lt;- drive_upload(drive_example("chicken.txt"), "chicken-cp.txt")
+
+## Make a "Copy of" copy in same folder as the original
+drive_cp("chicken-cp.txt")
+
+## Make an explicitly named copy in same folder as the original
+drive_cp("chicken-cp.txt", "chicken-cp-two.txt")
+
+## Make an explicitly named copy in a different folder
+folder &lt;- drive_mkdir("new-folder")
+drive_cp("chicken-cp.txt", path = folder, name = "chicken-cp-three.txt")
+
+## Make an explicitly named copy and star it.
+## The starring is an example of providing metadata via `...`.
+## `starred` is not an actual argument to `drive_cp()`,
+## it just gets passed through to the API.
+drive_cp("chicken-cp.txt", name = "chicken-cp-starred.txt", starred = TRUE)
+
+## `overwrite = FALSE` errors if file already exists at target filepath
+## THIS WILL ERROR!
+drive_cp("chicken-cp.txt", name = "chicken-cp.txt", overwrite = FALSE)
+
+## `overwrite = TRUE` moves an existing file to trash, then proceeds
+drive_cp("chicken-cp.txt", name = "chicken-cp.txt", overwrite = TRUE)
+
+## Behold all of our copies!
+drive_find("chicken-cp")
+
+## Delete all of our copies and the new folder!
+drive_find("chicken-cp") %&gt;% drive_rm()
+drive_rm(folder)
+
+## upload a csv file to copy
+csv_file &lt;- drive_upload(drive_example("chicken.csv"))
+
+## copy AND AT THE SAME TIME convert it to a Google Sheet
+chicken_sheet &lt;- drive_cp(
+  csv_file,
+  name = "chicken-cp",
+  mime_type = drive_mime_type("spreadsheet")
+)
+
+## go see the new Sheet in the browser
+## drive_browse(chicken_sheet)
+
+## clean up
+drive_rm(csv_file, chicken_sheet)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googledrive</em> version 1.0.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

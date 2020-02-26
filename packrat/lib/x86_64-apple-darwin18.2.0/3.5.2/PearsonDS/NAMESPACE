@@ -1,0 +1,23 @@
+useDynLib(PearsonDS, .registration = TRUE, .fixes = "C_")
+#importFrom(gsl,lngamma_complex)
+importFrom("utils", "installed.packages", "getFromNamespace")
+importFrom("graphics", "curve", "lines", "plot", "points", "polygon")
+importFrom("stats", "dbeta", "df", "dgamma", "dnorm", "dt",
+  "integrate", "nlminb", "pbeta", "pf", "pgamma", "pnorm",
+  "pt", "qbeta", "qf", "qgamma", "qnorm", "qt", "rbeta", "rf",
+  "rgamma", "rnorm", "rt", "sd", "var")
+exportPattern("^dpearson[[:alpha:]]+")
+exportPattern("^ppearson[[:alpha:]]+")
+exportPattern("^qpearson[[:alpha:]]+")
+exportPattern("^rpearson[[:alpha:]]+")
+exportPattern("[[:alpha:]]+pearson$")
+exportPattern("[[:alpha:]]+pearson0$")
+#exportPattern("^pearson[[:alpha:]]+moments$")
+
+export("pearsonFitM")
+export("pearsonFitML")
+export("pearsonMoments")
+export("pearsonDiagram")
+export("empMoments")
+export("pearsonMSC")
+

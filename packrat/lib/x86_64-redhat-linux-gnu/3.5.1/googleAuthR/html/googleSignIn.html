@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Google SignIn [Server Module]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for googleSignIn {googleAuthR}"><tr><td>googleSignIn {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Google SignIn [Server Module]</h2>
+
+<h3>Description</h3>
+
+<p>Shiny Module for use with <a href="googleSignInUI.html">googleSignInUI</a>.  
+Use when you don't need to call APIs, but would like a login to Shiny.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+googleSignIn(input, output, session)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>input</code></td>
+<td>
+<p>shiny input</p>
+</td></tr>
+<tr valign="top"><td><code>output</code></td>
+<td>
+<p>shiny output (<code>id</code>, <code>name</code>, <code>email</code>, <code>image</code>, <code>signed_in</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>session</code></td>
+<td>
+<p>shiny session</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Call via <code>shiny::callModule(googleSignIn, "your_id")</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A reactive list with values <code>$g_id</code>, <code>$g_name</code>, <code>$g_email</code>, <code>$g_image</code>
+and <code>$signed_in</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Based on original code by David Kulp
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

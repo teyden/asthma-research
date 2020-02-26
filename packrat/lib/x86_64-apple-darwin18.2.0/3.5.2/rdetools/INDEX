@@ -1,0 +1,21 @@
+denoiselabels           Denoise labels
+distimage               Distance image
+drawkpc                 Draw kernel pca coefficients
+estnoise                Estimate noise level
+isregression            Estimate from labels whether this is a
+                        regression problem
+kpr                     Kernel projection regression
+logspace                Logarithmically spaced sequence generation
+modelimage              Model selection image
+polykernel              Calculate polynomial kernel matrix
+rbfkernel               Calculate RBF kernel matrix
+rde                     Relevant Dimension Estimation (RDE)
+rde_loocv               Relevant Dimension Estimation (RDE) by
+                        Leave-One-Out Cross-Validation (LOO-CV)
+rde_tcm                 Relevant Dimension Estimation (RDE) by Fitting
+                        a Two-Component Model (TCM)
+rdetools-package        Relevant Dimension Estimation (RDE) in Feature
+                        Spaces
+selectmodel             Model selection
+sinc                    Calculate sinc values
+sincdata                Generate random sinc data

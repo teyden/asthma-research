@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Authenticate on Google Compute Engine</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gar_gce_auth {googleAuthR}"><tr><td>gar_gce_auth {googleAuthR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Authenticate on Google Compute Engine</h2>
+
+<h3>Description</h3>
+
+<p>This takes the metadata auth token in a Google Compute Engine instance as authentication source
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gar_gce_auth(service_account = "default",
+  scopes = getOption("googleAuthR.scopes.selected"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>service_account</code></td>
+<td>
+<p>Specify a different service account from the <code>default</code></p>
+</td></tr>
+<tr valign="top"><td><code>scopes</code></td>
+<td>
+<p>Scopes for the authentication</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>service_account</code> is <code>default</code> or the service account email 
+e.g. <code>"service-account-key-json@projectname.iam.gserviceaccount.com"</code>
+</p>
+<p>Google Compute Engine instances come with their own authentication tokens.  
+</p>
+<p>It has no refresh token so you need to call for a fresh token after approx. one hour. 
+The metadata token will refresh itself when it has about 60 seconds left.
+</p>
+<p>You can only use for scopes specified when creating the instance.
+</p>
+<p>If you want to use them make sure their service account email is added to accounts you want to get data from.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A token
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="gar_gce_auth_email.html">gar_gce_auth_email</a>
+</p>
+<p>Other authentication functions: <code><a href="gar_attach_auto_auth.html">gar_attach_auto_auth</a></code>,
+<code><a href="gar_auth_service.html">gar_auth_service</a></code>, <code><a href="gar_auth.html">gar_auth</a></code>,
+<code><a href="gar_auto_auth.html">gar_auto_auth</a></code>,
+<code><a href="get_google_token.html">get_google_token</a></code>,
+<code><a href="token_exists.html">token_exists</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>googleAuthR</em> version 1.1.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

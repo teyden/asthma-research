@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Update an existing Team Drive</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for team_drive_update {googledrive}"><tr><td>team_drive_update {googledrive}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Update an existing Team Drive</h2>
+
+<h3>Description</h3>
+
+<p>Update the metadata of an existing Team Drive, e.g. its background image or
+theme.
+</p>
+<p>Note: <a href="https://gsuite.google.com/learning-center/products/drive/get-started-team-drive/">Team Drives</a>
+are only available to users of certain enhanced Google services, such as G
+Suite Enterprise, G Suite Business, or G Suite for Education.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+team_drive_update(team_drive, ..., verbose = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>team_drive</code></td>
+<td>
+<p>Anything that identifies one specific Team Drive: its name,
+its id or URL marked with <code><a href="as_id.html">as_id()</a></code>, or a <code><a href="dribble.html">dribble</a></code>. Is pre-processed
+with <code><a href="as_team_drive.html">as_team_drive()</a></code>.  Read more about <a href="team_drives.html">Team Drives</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Named parameters to pass along to the Drive API. See the &quot;Request
+body&quot; section of the Drive API docs for the associated endpoint.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Logical, indicating whether to print informative messages
+(default <code>TRUE</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code><a href="dribble.html">dribble</a></code>, a tibble with one row per item.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Wraps the <code>teamdrives.update</code> endpoint:
+</p>
+
+<ul>
+<li> <p><a href="https://developers.google.com/drive/v3/reference/teamdrives/update">https://developers.google.com/drive/v3/reference/teamdrives/update</a>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+## create a Team Drive
+td &lt;- team_drive_create("I love themes!")
+
+## see the themes available to you
+themes &lt;- drive_user(fields = "teamDriveThemes")$teamDriveThemes
+purrr::map_chr(themes, "id")
+
+## cycle through various themes for this Team Drive
+td &lt;- team_drive_update(td, themeId = "bok_choy")
+td &lt;- team_drive_update(td, themeId = "cocktails")
+
+## clean up
+team_drive_rm(td)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>googledrive</em> version 1.0.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

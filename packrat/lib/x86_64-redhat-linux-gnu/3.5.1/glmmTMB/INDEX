@@ -1,0 +1,47 @@
+Anova.glmmTMB           Downstream methods for glmmTMB objects
+Owls                    Begging by Owl Nestlings
+Salamanders             Repeated counts of salamanders in streams
+confint.glmmTMB         Calculate confidence intervals
+epil2                   Seizure Counts for Epileptics - Extended
+findReTrmClasses        list of specials - taken from enum.R
+fixef                   Extract fixed-effects estimates
+formatVC                Format the 'VarCorr' Matrix of Random Effects
+formula.glmmTMB         Extract the formula of a glmmTMB object
+getCapabilities         List model options that glmmTMB knows about
+getME.glmmTMB           Extract or Get Generalize Components from a
+                        Fitted Mixed Effects Model
+getReStruc              Calculate random effect structure Calculates
+                        number of random effects, number of parameters,
+                        blocksize and number of blocks.  Mostly for
+                        internal use.
+getXReTrms              Create X and random effect terms from formula
+get_cor                 translate vector of correlation parameters to
+                        correlation values, following the definition at
+                        <URL:
+                        http://kaskr.github.io/adcomp/classUNSTRUCTURED__CORR__t.html>:
+                        if L is the lower-triangular matrix with 1 on
+                        the diagonal and the correlation parameters in
+                        the lower triangle, then the correlation matrix
+                        is defined as Sigma = sqrt(D) L L' sqrt(D),
+                        where D = diag(L L'). For a single correlation
+                        parameter theta0, this works out to rho =
+                        theta0/sqrt(1+theta0^2).
+glmmTMB                 Fit models with TMB
+glmmTMBControl          Control parameters for glmmTMB optimization
+isLMM.glmmTMB           support methods for parametric bootstrapping
+nbinom2                 Family functions for glmmTMB
+numFactor               Factor with numeric interpretable levels.
+predict.glmmTMB         prediction
+print.VarCorr.glmmTMB   Printing The Variance and Correlation
+                        Parameters of a 'glmmTMB'
+profile.glmmTMB         Compute likelihood profiles for a fitted model
+ranef.glmmTMB           Extract Random Effects
+residuals.glmmTMB       Compute residuals for a glmmTMB object
+sigma.glmmTMB           Extract residual standard deviation or
+                        dispersion parameter
+simulate.glmmTMB        Simulate from a glmmTMB fitted model
+tmbroot                 Compute likelihood profile confidence intervals
+                        of a TMB object by root-finding (generalized
+                        from TMB::tmbprofile)
+vcov.glmmTMB            Calculate Variance-Covariance Matrix for a
+                        Fitted glmmTMB model

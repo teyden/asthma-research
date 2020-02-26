@@ -1,0 +1,22 @@
+Package: ggbiplot
+Type: Package
+Title: A ggplot2 based biplot
+Version: 0.55
+Date: 2011-10-23
+Author: Vincent Q. Vu <vqv@stat.cmu.edu>
+Maintainer: Vincent Q. Vu <vqv@stat.cmu.edu>
+Description: A ggplot2 based biplot.  It provides a drop-in replacement
+    for biplot.princomp(). It implements a biplot and scree plot using
+    ggplot2.
+Depends: ggplot2, plyr, scales, grid
+License: GPL-2
+URL: http://github.com/vqv/ggbiplot
+Collate: 'ggbiplot.r' 'ggscreeplot.r'
+GithubRepo: ggbiplot
+GithubUsername: vqv
+GithubRef: master
+GithubSHA1: 7325e880485bea4c07465a0304c470608fffb5d9
+Built: R 3.5.2; ; 2019-10-31 11:07:17 UTC; unix
+InstallAgent: packrat 0.5.0.25
+InstallSource: github
+Hash: 5bebbf96df3e900f54d0579b59527fc8

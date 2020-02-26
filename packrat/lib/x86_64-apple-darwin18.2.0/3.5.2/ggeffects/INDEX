@@ -1,0 +1,10 @@
+efc                     Sample dataset from the EUROFAMCARE project
+emm                     Get marginal effects for model response
+get_title               Get titles and labels from data
+ggaverage               Get marginal effects from model terms
+new_data                Create a data frame from all combinations of
+                        predictor values
+plot                    Plot ggeffects-objects
+pretty_range            Create a pretty sequence over a range of a
+                        vector
+rprs_values             Calculate representative values of a vector

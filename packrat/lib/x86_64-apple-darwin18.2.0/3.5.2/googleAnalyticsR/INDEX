@@ -1,0 +1,123 @@
+authDropdown            authDropdown [Shiny Module]
+authDropdownUI          authDropdown UI [Shiny Module]
+dim_filter              Make a dimension filter object
+fetch_google_analytics_4
+                        Fetch multiple GAv4 requests
+fetch_google_analytics_4_slow
+                        Fetch GAv4 requests one at a time
+filter_clause_ga4       Make a dimension or metric filter clause object
+ga_account_list         Account summary for all accounts available to
+                        your user
+ga_accounts             List account metadata
+ga_adwords              Get AdWords Link meta data
+ga_adwords_add_linkid   Creates a Google Analytics webProperty-Google
+                        Ads link
+ga_adwords_delete_linkid
+                        Deletes a Google Analytics webProperty-Google
+                        Ads link
+ga_adwords_list         List AdWords
+ga_aggregate            Aggregate a Google Analytics dataframe over
+                        inputted columns
+ga_allowed_metric_dim   Create named list of allowed GA
+                        metrics/dimensions
+ga_auth                 Authenticate with Google Analytics OAuth2
+ga_cache_call           Setup caching of API calls
+ga_clientid_activity    User Activity Request
+ga_clientid_activity_unnest
+                        Unnest user activity columns
+ga_clientid_deletion    Create or update a user deletion request
+ga_clientid_hash        Get hashed version of client id (also known as
+                        hashClientId, hashedClientId, or BigQuery's
+                        fullVisitorId)
+ga_custom_datasource    List Custom Data Sources
+ga_custom_upload        Custom Data Source Upload Status
+ga_custom_upload_delete
+                        Deletes custom upload files for a given ids
+                        vector
+ga_custom_upload_file   Upload data to Google Analytics
+ga_custom_upload_list   List Custom Data Source Uploads
+ga_custom_vars          Get Custom Dimensions or Metrics
+ga_custom_vars_create   Create a custom dimension
+ga_custom_vars_list     List Custom Dimensions or Metrics
+ga_custom_vars_patch    Modify a custom dimension
+ga_experiment           Experiments Meta data
+ga_experiment_list      List Experiments
+ga_filter               Get specific filter for account
+ga_filter_add           Create a new filter and add it to the view
+                        (optional).
+ga_filter_apply_to_view
+                        Apply an existing filter to view.
+ga_filter_delete        Delete a filter from account or remove from
+                        view.
+ga_filter_list          List filters for account
+ga_filter_update        Updates an existing filter.
+ga_filter_update_filter_link
+                        Update an existing profile filter link. Patch
+                        semantics supported
+ga_filter_view          Get specific filter for view (profile)
+ga_filter_view_list     List filters for view (profile)
+ga_goal                 Get goal
+ga_goal_add             Create a new goal.
+ga_goal_list            List goals
+ga_goal_update          Updates an existing goal.
+ga_meta                 Get current dimensions and metrics available in
+                        GA API.
+ga_model                Use a model function created by ga_model_make
+ga_model_edit           Edit a created ga_model
+ga_model_example        Load an example model
+ga_model_load           Load a created model
+ga_model_make           Modelling function factory for Google Analytics
+                        data
+ga_model_save           Save a created model
+ga_model_tweet          Upload an interactive visualisation so it can
+                        be embedded in a tweet
+ga_model_write          Write the ga_model functions to a file
+ga_remarketing_build    Create a remarketing audience for creation
+ga_remarketing_create   Create a new remarketing audience
+ga_remarketing_estimate
+                        Estimate number of users added to the segment
+                        yesterday
+ga_remarketing_get      Get a remarketing audience
+ga_remarketing_list     List remarketing audiences
+ga_segment_list         Get segments user has access to
+ga_unsampled            Get Unsampled Report Meta Data
+ga_unsampled_download   Download Unsampled Report from Google Drive.
+                        You must be authenticated with the same account
+                        that you setup the unsampled report. This means
+                        service account authentication is not
+                        supported.
+ga_unsampled_list       List Unsampled Reports
+ga_users_add            Create or update user access to Google
+                        Analytics
+ga_users_delete         Delete all user access for an email
+ga_users_delete_linkid
+                        Delete users access from account, webproperty
+                        or view level
+ga_users_list           List Users
+ga_users_update         Update a user access in Google Analytics
+ga_view                 Get single View (Profile)
+ga_view_list            List View (Profile)
+ga_webproperty          Get a web property
+ga_webproperty_list     List web properties
+googleAnalyticsR        Library for getting Google Analytics data into
+                        R
+google_analytics        Get Google Analytics v4 data
+google_analytics_3      Get Google Analytics v3 data (formerly
+                        google_analytics())
+google_analytics_bq     Get Google Analytics 360 BigQuery data
+make_cohort_group       Create a cohort group
+make_ga_4_req           Make a Google Analytics v4 API fetch
+met_filter              Make a metric filter object
+meta                    Google Analytics API metadata
+multi_select            multi_select [Shiny Module]
+multi_selectUI          multi_select UI [Shiny Module]
+order_type              Make an OrderType object
+pivot_ga4               Make a pivot object
+segmentBuilder          Create a GAv4 Segment Builder
+segmentBuilderUI        Create a GAv4 Segment Builder
+segment_define          Make a segment definition
+segment_element         Make a segment element
+segment_ga4             Make a segment object for use
+segment_vector_sequence
+                        Make sequenceSegment
+segment_vector_simple   Make a simple segment vector
