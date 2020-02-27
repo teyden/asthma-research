@@ -2,7 +2,7 @@ concat_paths <- function(parent_path, ...) {
   ## Concatenates path partials
   to_concat <- c(parent_path)
   paths <- c(...)
-  if (length(paths) > 0 || !is.null(paths)) {
+  if (!is.null(paths) && length(paths) > 0) {
     for (item in paths) {
       if (item == "") {
         stop("Empty string provided for path string concatenation.")
